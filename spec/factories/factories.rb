@@ -1,7 +1,10 @@
 FactoryBot.define do
 
-  factory :admin_user do
+  factory :user do
     email     { Faker::Internet.email }
-    is_admin  { true }
+
+    factory :admin_user do
+      is_admin  { true }
+    end
   end
 end
