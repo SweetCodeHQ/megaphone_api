@@ -7,7 +7,7 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_type_one) { "user" }
     let(:query_string_one) { <<~GQL
-      query user($email: EMAIL!) {
+      query user($email: String!) {
         user(email: $email) {
           id
           email
