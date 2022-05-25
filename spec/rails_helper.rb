@@ -6,7 +6,14 @@ require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start 'rails' do
+  add_filter "app/channels/"
+  add_filter "app/controllers/"
+  add_filter "app/jobs/"
+  add_filter "app/mailers/"
+  add_filter %r{base}
+  add_filter %r{node}
+end
 require 'faker'
 
 Shoulda::Matchers.configure do |config|
