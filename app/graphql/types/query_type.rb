@@ -9,8 +9,17 @@ module Types
       argument :email, String, required: true
     end
 
+    field :entity, Types::EntityType, null: true do
+      description 'Find entity by url'
+      argument :url, String, required: true
+    end
+
     def user(email:)
       User.where(email: email).limit(1).first
+    end
+
+    def entity(url:)
+      Entity.where(url: url).limit(1).first
     end
   end
 end
