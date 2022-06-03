@@ -37,7 +37,10 @@ gem "bootsnap", require: false
 # gem "rack-cors"
   gem 'factory_bot_rails'
   gem 'faker'
-
+  gem "graphiql-rails"
+  gem "sass-rails"
+  gem "uglifier"
+  gem "coffee-rails"
 group :development, :test do
   gem "rspec-rails"
   gem "pry"
@@ -48,7 +51,6 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'graphiql-rails'
 end
 
 gem 'graphql'
