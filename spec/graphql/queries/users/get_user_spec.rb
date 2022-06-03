@@ -23,6 +23,7 @@ RSpec.describe Types::QueryType, type: :request do
           query query_string_one, variables: { email: "#{user.email}" }
         end
 
+
         it 'should return no errors' do
           expect(gql_response.errors).to be_nil
         end
@@ -42,7 +43,7 @@ RSpec.describe Types::QueryType, type: :request do
           it 'should return an error' do
             user
             query query_string_one, variables: { email: "notAnEmail" }
-            
+
             expect(gql_response.errors).to be_nil
             expect(gql_response.data["user"]). to be_nil
           end
