@@ -11,11 +11,11 @@ module Mutations
           end.to change { Entity.count }.by(1)
         end
 
-        it 'returns an admin user' do
-          post '/graphql', params: { query: g_query(email: "wide.com", name: "Wide") }
+        it 'returns an entity' do
+          post '/graphql', params: { query: g_query(url: "wide.com", name: "Wide") }
 
           json = JSON.parse(response.body, symbolize_names: true)
-          data = json[:data][:createUser]
+          data = json[:data][:createEntity]
 
           expect(data).to include(
             id: "#{Entity.last.id}",
