@@ -5,17 +5,14 @@ module Mutations
     RSpec.describe CreateUser, type: :request do
       describe '.resolve' do
         it 'creates an admin user' do
-          user = create(:user)
 
           expect do
-            post '/graphql', params: { query: g_query(email: user.email, is_admin: true) }
+            post '/graphql', params: { query: g_query(email: "me@me.com", is_admin: true) }
           end.to change { User.count }.by(1)
         end
 
         it 'returns an admin user' do
-          user2 = create(:user)
-
-          post '/graphql', params: { query: g_query(email: user2.email, is_admin: true) }
+          post '/graphql', params: { query: g_query(email: "you@u.com", is_admin: true) }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createUser]
@@ -23,7 +20,7 @@ module Mutations
           expect(data).to include(
             id: "#{User.last.id}",
 
-            email: user2.email,
+            email: "you@u.com",
             isAdmin: true
           )
         end
