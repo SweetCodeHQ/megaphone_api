@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe User do
   describe 'relationships' do
+    it { should have_many :user_entities }
+    it { should have_many(:entities).through(:user_entities) }
   end
 
   describe 'validations' do
