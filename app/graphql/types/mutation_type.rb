@@ -8,5 +8,9 @@ module Types
     field :create_entity, mutation: Mutations::Entities::CreateEntity do
       description 'Create an entity'
     end
+
+    field :create_user_entity, mutation: Mutations::UserEntities::CreateUserEntity do
+      description 'Create a user entity'
+    end
   end
 end
