@@ -41,6 +41,8 @@ gem "bootsnap", require: false
   gem "sass-rails"
   gem "uglifier"
   gem "coffee-rails"
+  gem 'graphql-batch'
+  gem 'batch-loader'
 group :development, :test do
   gem "rspec-rails"
   gem "pry"

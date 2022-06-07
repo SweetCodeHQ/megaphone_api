@@ -7,12 +7,12 @@ RSpec.describe Types::QueryType, type: :request do
     let(:entity)        { create(:entity) }
     let(:user_entity)   { create(:user_entity) }
 
-    let(:query_type_all) { "user_entity" }
+    let(:query_type_all) { "user_entities" }
     let(:query_string_all) { <<~GQL
-      query user($email: String!) {
+      query userByEmail($email: String!) {
         user(email: $email) {
           email
-          entity {
+          entities {
             id
             name
             url
@@ -21,7 +21,7 @@ RSpec.describe Types::QueryType, type: :request do
       }
     GQL
     }
-    describe "return the employees for a flight" do
+    describe "return the entity for a user" do
       before do
         user
         entity
@@ -34,12 +34,12 @@ RSpec.describe Types::QueryType, type: :request do
       end
 
       it 'should return an entity' do
-        # expect(gql_response.data["user"]["entity"]).to be_an Array
-        expect(gql_response.data["user"]["entity"]).to eq({
+        expect(gql_response.data["user"]["entities"]).to be_an Array
+        expect(gql_response.data["user"]["entities"]).to eq([{
           "id" => entity.id.to_s,
           "url" => entity.url,
           "name" => entity.name
-        })
+        }])
       end
     end
   end
