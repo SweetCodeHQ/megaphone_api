@@ -12,4 +12,9 @@ FactoryBot.define do
     name        { Faker::Company.name }
     url         { Faker::Internet.domain_name }
   end
+
+  factory :user_entity do
+    user    { User.last }
+    entity  { Entity.last }
+  end
 end
