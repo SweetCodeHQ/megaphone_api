@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_09_153844) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_09_163219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,10 +21,28 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_09_153844) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "entity_markets", force: :cascade do |t|
+    t.bigint "entity_id", null: false
+    t.bigint "market_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["entity_id"], name: "index_entity_markets_on_entity_id"
+    t.index ["market_id"], name: "index_entity_markets_on_market_id"
+  end
+
   create_table "keywords", force: :cascade do |t|
     t.string "word", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "market_keywords", force: :cascade do |t|
+    t.bigint "market_id", null: false
+    t.bigint "keyword_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["keyword_id"], name: "index_market_keywords_on_keyword_id"
+    t.index ["market_id"], name: "index_market_keywords_on_market_id"
   end
 
   create_table "markets", force: :cascade do |t|
@@ -49,6 +67,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_09_153844) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "entity_markets", "entities"
+  add_foreign_key "entity_markets", "markets"
+  add_foreign_key "market_keywords", "keywords"
+  add_foreign_key "market_keywords", "markets"
   add_foreign_key "user_entities", "entities"
   add_foreign_key "user_entities", "users"
 end

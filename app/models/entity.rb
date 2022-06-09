@@ -1,6 +1,8 @@
 class Entity < ApplicationRecord
   has_many :users, through: :user_entities
-  validates_presence_of :url, :name
+  has_many :entity_markets
+  has_many :markets, through: :entity_markets
 
+  validates_presence_of :url, :name
   validates :url, :name, uniqueness: true
 end
