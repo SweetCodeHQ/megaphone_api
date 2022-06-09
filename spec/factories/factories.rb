@@ -23,6 +23,6 @@ FactoryBot.define do
   end
 
   factory :keyword do
-    name { Faker::Coffee.blend_name }
+    word { Faker::Coffee.blend_name }
   end
 end
