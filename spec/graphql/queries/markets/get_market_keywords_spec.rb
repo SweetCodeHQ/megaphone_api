@@ -5,7 +5,7 @@ RSpec.describe Types::QueryType, type: :request do
   describe 'get markets for an entity' do
     let(:market)         { create(:market) }
     let(:keyword)        { create(:keyword) }
-    let(:market_keyword) { create(:market_keywords) }
+    let(:market_keyword) { create(:market_keyword) }
 
     let(:query_type_all) { "market keywords" }
     let(:query_string_all) { <<~GQL

@@ -10,7 +10,7 @@ RSpec.describe Types::QueryType, type: :request do
     let(:query_type_all) { "entity markets" }
     let(:query_string_all) { <<~GQL
       query enitityByUrl($url: String!) {
-        user(url: $url) {
+        entity(url: $url) {
           url
           markets {
             id
