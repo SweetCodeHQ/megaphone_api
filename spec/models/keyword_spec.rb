@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe Keyword do
   describe 'relationships' do
-    # it { should have_many :user_entities }
-    # it { should have_many(:entities).through(:user_entities) }
+    it { should have_many :market_keywords }
+    it { should have_many(:markets).through(:market_keywords) }
   end
 
   describe 'validations' do
