@@ -25,14 +25,14 @@ module Mutations
           data = json[:data][:createEntityMarket]
 
           expect(data).to include(
-            id: "#{MarketEntity.first.id}"
+            id: "#{EntityMarket.first.id}"
           )
         end
 
         def g_query(market_id:, entity_id:)
           <<~GQL
             mutation {
-              createUserEntity( input: {
+              createEntityMarket( input: {
                 marketId: "#{market_id}"
                 entityId: "#{entity_id}"
               } ){
@@ -45,7 +45,7 @@ module Mutations
 
       describe 'sad path' do
         it 'returns errors' do
-          user   = create(:user)
+          market   = create(:market)
           entity = create(:entity)
 
           post '/graphql', params: { query: g_query(market_id: market.id, entity_id: entity.id) }
@@ -57,7 +57,7 @@ module Mutations
         def g_query(market_id:, entity_id:)
           <<~GQL
             mutation {
-              createUserEntity( input: {
+              createEntityMarket( input: {
                 marketId: "#{market_id}"
               } ){
                 id
