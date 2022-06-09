@@ -21,4 +21,8 @@ FactoryBot.define do
   factory :market do
     name { Faker::Beer.brand }
   end
+
+  factory :keyword do
+    word { Faker::Coffee.blend_name }
+  end
 end

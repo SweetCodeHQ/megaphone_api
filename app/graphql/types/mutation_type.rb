@@ -13,6 +13,10 @@ module Types
       description 'Create a market'
     end
 
+    field :create_keyword, mutation: Mutations::Keywords::CreateKeyword do
+      description 'Create a keyword'
+    end
+
     field :create_user_entity, mutation: Mutations::UserEntities::CreateUserEntity do
       description 'Create a user entity'
     end
