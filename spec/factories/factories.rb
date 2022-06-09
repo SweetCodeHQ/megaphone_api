@@ -17,4 +17,8 @@ FactoryBot.define do
     user    { User.last }
     entity  { Entity.last }
   end
+
+  factory :market do
+    name { Faker::Beer.brand }
+  end
 end
