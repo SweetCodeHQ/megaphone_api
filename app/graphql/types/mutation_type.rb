@@ -9,6 +9,10 @@ module Types
       description 'Create an entity'
     end
 
+    field :create_market, mutation: Mutations::Markets::CreateMarket do
+      description 'Create a market'
+    end
+
     field :create_user_entity, mutation: Mutations::UserEntities::CreateUserEntity do
       description 'Create a user entity'
     end
