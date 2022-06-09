@@ -19,6 +19,11 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :keyword, Types::KeywordType, null: true do
+      description 'Find keyword by id'
+      argument :id, ID, required: true
+    end
+
     def user(email:)
       User.where(email: email).limit(1).first
     end
@@ -29,6 +34,10 @@ module Types
 
     def market(id:)
       Market.find(id)
+    end
+
+    def keyword(id:)
+      Keyword.find(id)
     end
   end
 end
