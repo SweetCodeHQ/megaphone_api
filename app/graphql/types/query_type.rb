@@ -14,12 +14,21 @@ module Types
       argument :url, String, required: true
     end
 
+    field :market, Types::MarketType, null: true do
+      description 'Find market by id'
+      argument :id, ID, required: true
+    end
+
     def user(email:)
       User.where(email: email).limit(1).first
     end
 
     def entity(url:)
       Entity.where(url: url).limit(1).first
+    end
+
+    def market(id:)
+      Market.find(id)
     end
   end
 end
