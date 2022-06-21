@@ -4,19 +4,19 @@ module Mutations
   module Topics
     RSpec.describe CreateTopic, type: :request do
       describe '.resolve' do
-        # it 'creates a topic' do
-        #   user = create(:user)
-        #
-        #   expect do
-        #     post '/graphql', params: { query: g_query(text: "Topic Text", user_id: user.id) }
-        #   end.to change { Topic.count }.by(1)
-        # end
+        it 'creates a topic' do
+          user = create(:user)
+
+          expect do
+            post '/graphql', params: { query: g_query(text: "Topic Text", user_id: user.id) }
+          end.to change { Topic.count }.by(1)
+        end
 
         it 'returns a topic' do
           user = create(:user)
 
           post '/graphql', params: { query: g_query(text: "More Topic Text", user_id: user.id) }
-          
+
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createTopic]
 
