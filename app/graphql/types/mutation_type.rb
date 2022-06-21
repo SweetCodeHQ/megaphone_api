@@ -36,5 +36,13 @@ module Types
     field :update_user, mutation: Mutations::Users::UpdateUser do
       description 'Update a user'
     end
+
+    field :update_market, mutation: Mutations::Markets::UpdateMarket do
+      description 'Update a market'
+    end
+
+    field :update_keyword, mutation: Mutations::Keywords::UpdateKeyword do
+      description 'Update a keyword'
+    end
   end
 end
