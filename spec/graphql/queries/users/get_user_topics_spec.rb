@@ -24,7 +24,7 @@ RSpec.describe Types::QueryType, type: :request do
       before do
         user
         topic
-        query query_string_all, variables: { id: "#{User.last.id}" }
+        query query_string_all, variables: { email: "#{User.last.email}" }
       end
 
       it 'should return no errors' do
