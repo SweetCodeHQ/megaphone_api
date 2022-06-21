@@ -4,6 +4,7 @@ describe User do
   describe 'relationships' do
     it { should have_many :user_entities }
     it { should have_many(:entities).through(:user_entities) }
+    it { should have_many :topics }
   end
 
   describe 'validations' do

@@ -29,6 +29,10 @@ module Types
       description 'Create a market keyword'
     end
 
+    field :create_topic, mutation: Mutations::Topics::CreateTopic do
+      description 'Create a topic'
+    end
+
     field :update_entity, mutation: Mutations::Entities::UpdateEntity do
       description 'Update an entity'
     end
@@ -43,6 +47,10 @@ module Types
 
     field :update_keyword, mutation: Mutations::Keywords::UpdateKeyword do
       description 'Update a keyword'
+    end
+
+    field :update_topic, mutation: Mutations::Topics::UpdateTopic do
+      description 'Update a topic'
     end
   end
 end

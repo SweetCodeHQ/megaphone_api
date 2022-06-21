@@ -1,6 +1,7 @@
 module Types
   class UserType < Types::BaseObject
     field :entities, [Types::EntityType], null: true
+    field :topics, [Types::TopicType], null: true
 
     field :id, ID, null: false
 
@@ -9,6 +10,10 @@ module Types
 
     def entities
       Loaders::AssociationLoader.for(object.class, :entities).load(object)
+    end
+
+    def topics
+      Loaders::AssociationLoader.for(object.class, :topics).load(object)
     end
   end
 end
