@@ -28,5 +28,9 @@ module Types
     field :create_market_keyword, mutation: Mutations::MarketKeywords::CreateMarketKeyword do
       description 'Create a market keyword'
     end
+
+    field :update_entity, mutation: Mutations::Entities::UpdateEntity do
+      description 'Update an entity'
+    end
   end
 end
