@@ -35,4 +35,9 @@ FactoryBot.define do
   factory :keyword do
     word { Faker::Coffee.blend_name }
   end
+
+  factory :topic do
+    user { User.last }
+    text { Faker::ChuckNorris.fact }
+  end
 end
