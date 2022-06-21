@@ -48,5 +48,9 @@ module Types
     field :update_keyword, mutation: Mutations::Keywords::UpdateKeyword do
       description 'Update a keyword'
     end
+
+    field :update_topic, mutation: Mutations::Topics::UpdateTopic do
+      description 'Update a topic'
+    end
   end
 end
