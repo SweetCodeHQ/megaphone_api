@@ -32,5 +32,9 @@ module Types
     field :update_entity, mutation: Mutations::Entities::UpdateEntity do
       description 'Update an entity'
     end
+
+    field :update_user, mutation: Mutations::Users::UpdateUser do
+      description 'Update a user'
+    end
   end
 end
