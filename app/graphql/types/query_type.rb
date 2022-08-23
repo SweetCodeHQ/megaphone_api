@@ -9,6 +9,10 @@ module Types
       argument :email, String, required: true
     end
 
+    field :admin_users, [Types::UserType], null: false do
+      description 'Find all admin users'
+    end
+
     field :entity, Types::EntityType, null: true do
       description 'Find entity by url'
       argument :url, String, required: true
@@ -38,6 +42,10 @@ module Types
 
     def keyword(id:)
       Keyword.find(id)
+    end
+
+    def admin_users
+      User.where(is_admin: true)
     end
   end
 end
