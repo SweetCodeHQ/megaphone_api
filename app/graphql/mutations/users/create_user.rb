@@ -2,7 +2,6 @@ module Mutations
   module Users
     class CreateUser < ::Mutations::BaseMutation
       argument :email,     String,      required: true
-      argument :is_admin,  Boolean,     required: false
 
       type Types::UserType
 
