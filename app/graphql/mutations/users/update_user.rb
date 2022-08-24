@@ -1,9 +1,10 @@
 module Mutations
   module Users
     class UpdateUser < ::Mutations::BaseMutation
-      argument :id,               ID,                          required: true
-      argument :email,            String,                      required: false
-
+      argument :id,               ID,               required: true
+      argument :email,            String,           required: false
+      argument :is_admin,         Boolean,          required: false
+      
       type Types::UserType
 
       def resolve(id:, **attributes)
