@@ -18,6 +18,10 @@ module Types
       argument :url, String, required: true
     end
 
+    field :entities, [Types::EntityType], null: true do
+      description 'Find all entities'
+    end
+
     field :market, Types::MarketType, null: true do
       description 'Find market by id'
       argument :id, ID, required: true
@@ -46,6 +50,10 @@ module Types
 
     def admin_users
       User.where(is_admin: true)
+    end
+
+    def entities
+      Entity.all
     end
   end
 end
