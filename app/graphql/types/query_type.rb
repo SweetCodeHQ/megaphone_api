@@ -13,6 +13,10 @@ module Types
       description 'Find all admin users'
     end
 
+    field :fixate_users, [Types::UserType], null: false do
+      description 'Find all Fixate users'
+    end
+
     field :entity, Types::EntityType, null: true do
       description 'Find entity by url'
       argument :url, String, required: true
@@ -50,6 +54,10 @@ module Types
 
     def admin_users
       User.where(is_admin: true)
+    end
+
+    def fixate_users
+      User.joins(:entities).where(entities: {name: 'Fixate'})
     end
 
     def entities
