@@ -19,7 +19,7 @@ FactoryBot.define do
   end
 
   factory :entity_market do
-    entity    { Entity.last }
+    entity  { Entity.last }
     market  { Market.last }
   end
 
