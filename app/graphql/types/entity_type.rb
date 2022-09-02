@@ -1,14 +1,25 @@
 module Types
   class EntityType < Types::BaseObject
-    field :markets, [Types::MarketType], null: true
+    field :markets,   [Types::MarketType],  null: true
+    field :users,     [Types::UserType],    null: true
 
-    field :id, ID, null: false
+    field :id,        ID, null: false
 
-    field :url,    String,  null: false
-    field :name,   String,  null: false
+    field :url,       String,  null: false
+    field :name,      String,  null: false
+
+    field :user_count, Int, null: false
 
     def markets
       Loaders::AssociationLoader.for(object.class, :markets).load(object)
+    end
+
+    def users
+      Loaders::AssociationLoader.for(object.class, :markets).load(object)
+    end
+
+    def user_count
+      @object.users.size
     end
   end
 end
