@@ -20,7 +20,7 @@ RSpec.describe Types::QueryType, type: :request do
   def query
     <<~GQL
       query {
-        entitiesConnection(first: 2, after: "Mg") {
+        entitiesConnection(first: 2) {
           pageInfo {
           endCursor
           startCursor
