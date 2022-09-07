@@ -1,4 +1,5 @@
 class MegaphoneApiSchema < GraphQL::Schema
+  default_page_size 10
   mutation(Types::MutationType)
   query(Types::QueryType)
   use GraphQL::Batch
