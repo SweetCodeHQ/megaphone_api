@@ -26,6 +26,10 @@ module Types
       description 'Find all entities'
     end
 
+    field :entities_connection, Types::EntityType.connection_type, null: false do
+      description 'Find all entities with pagination'
+    end
+
     field :market, Types::MarketType, null: true do
       description 'Find market by id'
       argument :id, ID, required: true
@@ -62,6 +66,10 @@ module Types
 
     def entities
       Entity.all
+    end
+
+    def entities_connection
+      ::Entity.all
     end
   end
 end
