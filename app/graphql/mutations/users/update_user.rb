@@ -4,7 +4,7 @@ module Mutations
       argument :id,          ID,         required: true
       argument :email,       String,     required: false
       argument :is_admin,    Boolean,    required: false
-      argument :is_blocked   Boolean,    required: false
+      argument :is_blocked,   Boolean,    required: false
 
       type Types::UserType
 
