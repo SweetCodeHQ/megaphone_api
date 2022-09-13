@@ -17,6 +17,10 @@ module Types
       description 'Find all Fixate users'
     end
 
+    field :users_connection, Types::UserType.connection_type, null: false do
+      description 'Find all users with pagination'
+    end
+
     field :entity, Types::EntityType, null: true do
       description 'Find entity by url'
       argument :url, String, required: true
@@ -70,6 +74,10 @@ module Types
 
     def entities_connection
       ::Entity.all
+    end
+
+    def users_connection
+      User.order(:email)
     end
   end
 end
