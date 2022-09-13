@@ -77,7 +77,7 @@ module Types
     end
 
     def users_connection
-      User.order(:email)
+      ::User.all
     end
   end
 end
