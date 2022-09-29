@@ -21,6 +21,11 @@ module Types
       description 'Find all users with pagination'
     end
 
+    field :user_topics_connection, Types::TopicType.connection_type, null: true do
+      description 'find a users topics with pagination'
+      argument :user_id, ID, required: true
+    end
+
     field :entity, Types::EntityType, null: true do
       description 'Find entity by url'
       argument :url, String, required: true
@@ -78,6 +83,10 @@ module Types
 
     def users_connection
       ::User.all
+    end
+
+    def user_topics_connection(user_id:)
+      ::Topic.where(user_id: user_id)
     end
   end
 end
