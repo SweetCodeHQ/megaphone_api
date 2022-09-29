@@ -1,7 +1,7 @@
 module Mutations
   module Topics
     class DestroyTopic < ::Mutations::BaseMutation
-      argument :id, Integer, required: true
+      argument :id, ID, required: true
 
       type Types::TopicType
 
