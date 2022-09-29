@@ -52,5 +52,9 @@ module Types
     field :update_topic, mutation: Mutations::Topics::UpdateTopic do
       description 'Update a topic'
     end
+
+    field :destroy_topic, mutation: Mutations::Topics::DestroyTopic do
+      description 'Destroy a topic'
+    end
   end
 end
