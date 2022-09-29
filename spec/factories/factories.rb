@@ -38,6 +38,6 @@ FactoryBot.define do
 
   factory :topic do
     user { User.last }
-    text { Faker::ChuckNorris.fact }
+    text { Faker::Alphanumeric.unique.alpha(number: 10) }
   end
 end
