@@ -70,8 +70,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_backwards) {
       <<~GQL
-        query($userId: ID!) {
-          userTopicsConnection(userId: $userId, before: "MjE") {
+        query($userId: ID!, $before: String) {
+          userTopicsConnection(userId: $userId, before: $before) {
             pageInfo {
             endCursor
             startCursor
@@ -131,7 +131,7 @@ RSpec.describe Types::QueryType, type: :request do
     end
 
 #     it 'returns the second page through backwards pagination' do
-#       query query_backwards, variables: {user_id: User.first.id}
+#       query query_backwards, variables: {user_id: User.first.id, before: "MjE"}
 # require "pry"; binding.pry
 #       json = gql_response.data
 #
