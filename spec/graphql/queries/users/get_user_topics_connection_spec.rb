@@ -70,8 +70,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_backwards) {
       <<~GQL
-        query($userId: ID!, $before: String) {
-          userTopicsConnection(userId: $userId, before: $before) {
+        query($userId: ID!, $before: String!, $last: Int) {
+          userTopicsConnection(userId: $userId, before: $before, last: $last) {
             pageInfo {
             endCursor
             startCursor
@@ -117,7 +117,7 @@ RSpec.describe Types::QueryType, type: :request do
       expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
       expect(topics.size).to eq(10)
     end
-# Backwards pagination is implemented but doesn't work. Isolated to connection_type object. Will accept after argument but not 'before'. Unknown why.
+
     it 'returns the third page' do
       query query_third_page, variables: {user_id: User.first.id}
 
@@ -130,16 +130,16 @@ RSpec.describe Types::QueryType, type: :request do
       expect(topics.size).to eq(10)
     end
 
-#     it 'returns the second page through backwards pagination' do
-#       query query_backwards, variables: {user_id: User.first.id, before: "MjE"}
-# require "pry"; binding.pry
-#       json = gql_response.data
-#
-#       page_info = json['userTopicsConnection']['pageInfo']
-#       topics = json['userTopicsConnection']['edges']
-#
-#       expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
-#       expect(topics.size).to eq(10)
-#     end
+    it 'returns the second page through backwards pagination' do
+      query query_backwards, variables: {user_id: User.first.id, before: "MjE", last: 10}
+
+      json = gql_response.data
+
+      page_info = json['userTopicsConnection']['pageInfo']
+      topics = json['userTopicsConnection']['edges']
+
+      expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
+      expect(topics.size).to eq(10)
+    end
   end
 end

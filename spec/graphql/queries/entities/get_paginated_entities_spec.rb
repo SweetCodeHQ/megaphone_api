@@ -4,7 +4,7 @@ include GraphQL::TestHelpers
 RSpec.describe Types::QueryType, type: :request do
   describe '.resolve' do
     before do
-      create_list(:entity, 15)
+      create_list(:entity, 30)
     end
 
     it 'returns first page' do
@@ -25,18 +25,29 @@ RSpec.describe Types::QueryType, type: :request do
       page_info = json['data']['entitiesConnection']['pageInfo']
       entities = json['data']['entitiesConnection']['edges']
 
-      expect(page_info).to eq({"endCursor"=>"MTU", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>false})
-      expect(entities.size).to eq(5)
+      expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
+      expect(entities.size).to eq(10)
     end
 
-    it 'returns first page through backwards pagination' do
+    it 'returns the third page' do
       post '/graphql', params: { query: query3 }
       json = JSON.parse(response.body)
 
       page_info = json['data']['entitiesConnection']['pageInfo']
       entities = json['data']['entitiesConnection']['edges']
 
-      expect(page_info).to eq({"endCursor"=>"MTA", "startCursor"=>"MQ", "hasPreviousPage"=>false, "hasNextPage"=>true})
+      expect(page_info).to eq({"endCursor"=>"MzA", "startCursor"=>"MjE", "hasPreviousPage"=>true, "hasNextPage"=>false})
+      expect(entities.size).to eq(10)
+    end
+
+    it 'returns the second page through backwards pagination' do
+      post '/graphql', params: { query: query4 }
+      json = JSON.parse(response.body)
+
+      page_info = json['data']['entitiesConnection']['pageInfo']
+      entities = json['data']['entitiesConnection']['edges']
+
+      expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
       expect(entities.size).to eq(10)
     end
   end
@@ -44,7 +55,7 @@ RSpec.describe Types::QueryType, type: :request do
   def query
     <<~GQL
       query {
-        entitiesConnection(first: 10) {
+        entitiesConnection {
           pageInfo {
           endCursor
           startCursor
@@ -88,7 +99,29 @@ RSpec.describe Types::QueryType, type: :request do
   def query3
     <<~GQL
       query {
-        entitiesConnection(before: "MTE") {
+        entitiesConnection(after: "MjA") {
+          pageInfo {
+          endCursor
+          startCursor
+          hasPreviousPage
+          hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              name
+              url
+            }
+          }
+        }
+      }
+    GQL
+  end
+
+  def query4
+    <<~GQL
+      query {
+        entitiesConnection(before: "MjE", last: 10) {
           pageInfo {
           endCursor
           startCursor

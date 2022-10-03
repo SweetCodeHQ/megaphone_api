@@ -20,7 +20,7 @@ RSpec.describe Types::QueryType, type: :request do
       }
     GQL
     }
-    describe "return the markets for an entity" do
+    describe "return the topics for a user" do
       before do
         user
         topic
@@ -31,7 +31,7 @@ RSpec.describe Types::QueryType, type: :request do
         expect(gql_response.errors).to be_nil
       end
 
-      it 'should return an entity' do
+      it 'should return topics for a user' do
         expect(gql_response.data["user"]["topics"]).to be_an Array
         expect(gql_response.data["user"]["topics"]).to eq([{
           "id" => topic.id.to_s,
