@@ -9,10 +9,6 @@ module Types
       argument :email, String, required: true
     end
 
-    field :admin_users, [Types::UserType], null: false do
-      description 'Find all admin users'
-    end
-
     field :fixate_users, [Types::UserType], null: false do
       description 'Find all Fixate users'
     end
@@ -21,7 +17,7 @@ module Types
       description 'Find all users with pagination'
     end
 
-    field :user_topics_connection, Types::TopicType.connection_type, null: true do
+    field :user_topics_connection, Types::TopicType.connection_type, null: false do
       description 'find a users topics with pagination'
       argument :user_id, ID, required: true
     end
@@ -63,10 +59,6 @@ module Types
 
     def keyword(id:)
       Keyword.find(id)
-    end
-
-    def admin_users
-      User.where(is_admin: true)
     end
 
     def fixate_users
