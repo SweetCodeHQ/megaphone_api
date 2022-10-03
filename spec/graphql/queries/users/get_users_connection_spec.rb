@@ -28,7 +28,7 @@ RSpec.describe Types::QueryType, type: :request do
       expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
       expect(users.size).to eq(10)
     end
-# Backwards pagination is implemented but doesn't work. Isolated to connection_type object. Will accept after argument but not 'before'. Unknown why.
+
     it 'returns the third page' do
       post '/graphql', params: { query: query3 }
       json = JSON.parse(response.body)
@@ -39,17 +39,17 @@ RSpec.describe Types::QueryType, type: :request do
       expect(page_info).to eq({"endCursor"=>"MzA", "startCursor"=>"MjE", "hasPreviousPage"=>true, "hasNextPage"=>false})
       expect(users.size).to eq(10)
     end
-    #
-    # it 'returns the second page through backwards pagination' do
-    #   post '/graphql', params: { query: query4 }
-    #   json = JSON.parse(response.body)
-    #
-    #   page_info = json['data']['usersConnection']['pageInfo']
-    #   users = json['data']['usersConnection']['edges']
-    #
-    #   expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
-    #   expect(users.size).to eq(10)
-    # end
+
+    it 'returns the second page through backwards pagination' do
+      post '/graphql', params: { query: query4 }
+      json = JSON.parse(response.body)
+
+      page_info = json['data']['usersConnection']['pageInfo']
+      users = json['data']['usersConnection']['edges']
+
+      expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
+      expect(users.size).to eq(10)
+    end
   end
 
   def query
@@ -120,7 +120,7 @@ RSpec.describe Types::QueryType, type: :request do
   def query4
     <<~GQL
       query {
-        usersConnection(before: "MjE") {
+        usersConnection(before: "MjE", last: 10) {
           pageInfo {
           endCursor
           startCursor
