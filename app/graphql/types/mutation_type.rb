@@ -5,6 +5,10 @@ module Types
       description 'Create a user'
     end
 
+    field :destroy_user, mutation: Mutations::Users::DestroyUser do
+      description 'Destroy a user'
+    end
+
     field :create_entity, mutation: Mutations::Entities::CreateEntity do
       description 'Create an entity'
     end
