@@ -3,8 +3,13 @@ require 'rails_helper'
 describe User do
   describe 'relationships' do
     it { should have_many :user_entities }
+    it { should have_many(:user_entities).dependent(:destroy)}
+
     it { should have_many(:entities).through(:user_entities) }
+
     it { should have_many :topics }
+    it { should have_many(:topics).dependent(:destroy) }
+
   end
 
   describe 'validations' do
