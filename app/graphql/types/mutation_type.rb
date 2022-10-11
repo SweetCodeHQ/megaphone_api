@@ -60,5 +60,9 @@ module Types
     field :destroy_topic, mutation: Mutations::Topics::DestroyTopic do
       description 'Destroy a topic'
     end
+
+    field :create_user_keyword, mutation: Mutations::UserKeywords::CreateUserKeyword do
+      description 'Create a user keyword'
+    end
   end
 end
