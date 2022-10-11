@@ -18,6 +18,11 @@ FactoryBot.define do
     entity  { Entity.last }
   end
 
+  factory :user_keyword do
+    user     { User.last }
+    keyword  { Keyword.last }
+  end
+
   factory :entity_market do
     entity  { Entity.last }
     market  { Market.last }
@@ -33,7 +38,7 @@ FactoryBot.define do
   end
 
   factory :keyword do
-    word { Faker::Coffee.blend_name }
+    word { Faker::Coffee.unique.blend_name }
   end
 
   factory :topic do
