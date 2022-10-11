@@ -45,6 +45,10 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :random_keywords, [Types::KeywordType], null: true do
+      description 'Get random keywords'
+    end
+
     def user(email:)
       User.where(email: email).limit(1).first
     end
@@ -59,6 +63,10 @@ module Types
 
     def keyword(id:)
       Keyword.find(id)
+    end
+
+    def random_keywords
+      Keyword.order("RANDOM()").limit(10)
     end
 
     def fixate_users

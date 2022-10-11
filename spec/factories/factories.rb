@@ -38,7 +38,7 @@ FactoryBot.define do
   end
 
   factory :keyword do
-    word { Faker::Coffee.blend_name }
+    word { Faker::Coffee.unique.blend_name }
   end
 
   factory :topic do
