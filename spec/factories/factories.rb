@@ -19,8 +19,8 @@ FactoryBot.define do
   end
 
   factory :user_keyword do
-    user    { User.last }
-    entity  { Keyword.last }
+    user     { User.last }
+    keyword  { Keyword.last }
   end
 
   factory :entity_market do
