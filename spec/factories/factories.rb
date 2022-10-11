@@ -18,6 +18,11 @@ FactoryBot.define do
     entity  { Entity.last }
   end
 
+  factory :user_keyword do
+    user    { User.last }
+    entity  { Keyword.last }
+  end
+
   factory :entity_market do
     entity  { Entity.last }
     market  { Market.last }
