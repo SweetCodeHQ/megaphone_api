@@ -10,6 +10,10 @@ describe User do
     it { should have_many :topics }
     it { should have_many(:topics).dependent(:destroy) }
 
+    it { should have_many :user_keywords }
+    it { should have_many(:user_keywords).dependent(:destroy) }
+
+    it { should have_many(:keywords).through(:user_keywords) }
   end
 
   describe 'validations' do
