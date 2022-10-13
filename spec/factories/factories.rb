@@ -29,7 +29,7 @@ FactoryBot.define do
   end
 
   factory :market do
-    name { Faker::Beer.brand }
+    name { Faker::Beer.unique.brand }
   end
 
   factory :market_keyword do
