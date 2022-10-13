@@ -1,13 +1,16 @@
 module Mutations
   module Keywords
     class UpdateKeyword < ::Mutations::BaseMutation
-      argument :id,        ID,         required: true
+      argument :id, ID, required: false
+      argument :search_count, Int, required: false
+      argument :word,  String,  required: true
 
       type Types::KeywordType
-# The only thing it updates is search_count
-      def resolve(id:)
-        Keyword.increment_counter(:search_count, id)
-        Keyword.find(id)
+
+      def resolve(word:)
+        keyword = Keyword.find_by(word: word)
+        Keyword.increment_counter(:search_count, keyword.id)
+        keyword.reload
       end
     end
   end
