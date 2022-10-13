@@ -11,6 +11,7 @@ RSpec.describe Types::QueryType, type: :request do
         keyword(id: $id) {
           id
           word
+          searchCount
         }
       }
     GQL
@@ -31,7 +32,8 @@ RSpec.describe Types::QueryType, type: :request do
           expect(gql_response.data["keyword"]).to be_a Hash
           expect(gql_response.data["keyword"]).to eq({
             "id"    => keyword.id.to_s,
-            "word"  => keyword.word
+            "word"  => keyword.word,
+            "searchCount" => keyword.search_count
           })
         end
       end
