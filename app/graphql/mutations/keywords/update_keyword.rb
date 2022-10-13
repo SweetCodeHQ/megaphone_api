@@ -6,11 +6,10 @@ module Mutations
       argument :search_count, Int,     required: false
 
       type Types::KeywordType
-
-      def resolve(id:, **attributes)
-        Keyword.find(id).tap do |keyword|
-          keyword.update!(attributes)
-        end
+# The only thing it updates is search_count
+      def resolve(id:)
+        Keyword.increment_counter(:search_count, id)
+        Keyword.find(id)
       end
     end
   end

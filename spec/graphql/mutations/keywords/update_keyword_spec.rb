@@ -4,13 +4,13 @@ module Mutations
   module Keywords
     RSpec.describe Keyword, type: :request do
       describe 'resolve' do
-        it 'updates a keyword' do
+        it 'updates a keyword search_count' do
           keyword = create(:keyword)
 
           post '/graphql', params: { query: g_query(id: keyword.id) }
 
           expect(keyword.reload).to have_attributes(
-            word: "New Word"
+            search_count: 2
           )
         end
 
@@ -23,7 +23,7 @@ module Mutations
 
           expect(data).to include(
             id: "#{ keyword2.reload.id }",
-            word: "New Word"
+            searchCount: 2
           )
         end
 
@@ -32,10 +32,9 @@ module Mutations
             mutation {
               updateKeyword(input: {
                 id: #{id}
-                word: "New Word"
               }){
                 id
-                word
+                searchCount
               }
             }
           GQL
@@ -58,7 +57,7 @@ module Mutations
                 id: 'not an id'
               }) {
                 id
-                word
+                searchCount
               }
             }
           GQL
