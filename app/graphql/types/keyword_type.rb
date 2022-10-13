@@ -4,6 +4,7 @@ module Types
 
     field :id,          ID,       null: false
     field :word,        String,   null: false
+    field :search_count, Int,    null: false
 
     field :user_count,  Int,     null: false
 
