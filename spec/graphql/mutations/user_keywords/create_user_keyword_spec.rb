@@ -10,7 +10,7 @@ module Mutations
 
           expect do
             post '/graphql', params:
-              { query: g_query(user_id: user.id, keyword_id: keyword.id)
+              { query: g_query(user_id: user.id, word: keyword.word)
               }
           end.to change { UserKeyword.count }.by(1)
         end
@@ -19,7 +19,7 @@ module Mutations
           user = create(:user)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(user_id: user.id, keyword_id: keyword.id) }
+          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createUserKeyword]
@@ -29,12 +29,12 @@ module Mutations
           )
         end
 
-        def g_query(user_id:, keyword_id:)
+        def g_query(user_id:, word:)
           <<~GQL
             mutation {
               createUserKeyword( input: {
                 userId: "#{user_id}"
-                keywordId: "#{keyword_id}"
+                word: "#{word}"
               } ){
                 id
               }
@@ -48,13 +48,13 @@ module Mutations
           user  = create(:user)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(user_id: user.id, keyword_id: keyword.id) }
+          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }
 
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end
 
-        def g_query(user_id:, keyword_id:)
+        def g_query(user_id:, word:)
           <<~GQL
             mutation {
               createUserEntity( input: {

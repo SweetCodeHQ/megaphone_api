@@ -34,7 +34,7 @@ RSpec.describe Types::QueryType, type: :request do
         expect(gql_response.errors).to be_nil
       end
 
-      it 'should return topics for a user' do
+      it 'should return keywords for a user' do
         expect(gql_response.data["user"]["keywords"]).to be_an Array
         expect(gql_response.data["user"]["keywords"]).to eq([{
           "id" => keyword.id.to_s,
