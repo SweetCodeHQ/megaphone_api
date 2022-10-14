@@ -49,6 +49,10 @@ module Types
       description 'Get random keywords'
     end
 
+    field :top_five_keywords, [Types::KeywordType], null: true do
+      description 'Get the top 5 most searched keywords'
+    end
+
     def user(email:)
       User.where(email: email).limit(1).first
     end
@@ -67,6 +71,10 @@ module Types
 
     def random_keywords
       Keyword.order("RANDOM()").limit(10)
+    end
+
+    def top_five_keywords
+      Keyword.order(search_count: :desc).limit(5)
     end
 
     def fixate_users
