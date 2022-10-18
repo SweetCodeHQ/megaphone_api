@@ -183,6 +183,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.1)
+    ruby_http_client (3.5.5)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -193,6 +194,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    sendgrid-ruby (6.6.2)
+      ruby_http_client (~> 3.4)
     shoulda-matchers (5.2.0)
       activesupport (>= 5.2.0)
     simplecov (0.21.2)
@@ -240,6 +243,7 @@ DEPENDENCIES
   rails (~> 7.0.1)
   rspec-rails
   sass-rails
+  sendgrid-ruby
   shoulda-matchers
   simplecov
   tzinfo-data
