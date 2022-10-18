@@ -1,8 +1,8 @@
 module Mutations
   module Topics
     class UpdateTopic < ::Mutations::BaseMutation
-      argument :id,              ID,                         required: true
-      argument :text,            String,                      required: false
+      argument :id,      ID,         required: true
+      argument :text,    String,     required: false
 
       type Types::TopicType
 

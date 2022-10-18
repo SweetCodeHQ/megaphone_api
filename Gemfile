@@ -43,6 +43,7 @@ gem "bootsnap", require: false
   gem "coffee-rails"
   gem 'graphql-batch'
   gem 'batch-loader'
+  gem 'sendgrid-ruby'
 group :development, :test do
   gem "rspec-rails"
   gem "pry"
