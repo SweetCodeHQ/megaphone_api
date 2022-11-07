@@ -3,6 +3,7 @@ module Mutations
     class UpdateTopic < ::Mutations::BaseMutation
       argument :id,      ID,         required: true
       argument :text,    String,     required: false
+      argument :submitted, Boolean, required: false
 
       type Types::TopicType
 
