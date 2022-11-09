@@ -11,7 +11,8 @@ module Mutations
           post '/graphql', params: { query: g_query(id: topic.id) }
 
           expect(topic.reload).to have_attributes(
-            text: "New Text"
+            text: "New Text",
+            submitted: true
           )
         end
 
@@ -25,7 +26,8 @@ module Mutations
 
           expect(data).to include(
             id: "#{ topic2.reload.id }",
-            text: "New Text"
+            text: "New Text",
+            submitted: true
           )
         end
 
@@ -35,9 +37,11 @@ module Mutations
               updateTopic(input: {
                 id: #{id}
                 text: "New Text"
+                submitted: true
               }){
                 id
                 text
+                submitted
               }
             }
           GQL

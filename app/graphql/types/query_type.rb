@@ -94,7 +94,7 @@ module Types
     end
 
     def user_topics_connection(user_id:)
-      ::Topic.where(user_id: user_id)
+      ::Topic.where(user_id: user_id).order(submitted: :desc)
     end
   end
 end
