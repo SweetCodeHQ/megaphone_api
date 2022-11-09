@@ -142,4 +142,49 @@ RSpec.describe Types::QueryType, type: :request do
       expect(topics.size).to eq(10)
     end
   end
+
+  describe "return topics in order of   submitted" do
+    let(:user)     { create(:user) }
+    let(:topic)    { create(:topic) }
+    let(:topic2)   { create(:topic, submitted: true) }
+
+    let(:query1) {
+      <<~GQL
+        query($userId: ID!) {
+          userTopicsConnection(userId: $userId) {
+            pageInfo {
+            endCursor
+            startCursor
+            hasPreviousPage
+            hasNextPage
+            }
+            edges {
+              cursor
+              node {
+                id
+                text
+                submitted
+              }
+            }
+          }
+        }
+      GQL
+    }
+
+    before do
+      user
+      topic
+      topic2
+    end
+
+    it 'returns topics in order of submitted status' do
+      query query1, variables: {user_id: User.first.id}
+
+      json = gql_response.data
+
+      topics = json['userTopicsConnection']['edges']
+
+      expect(topics.first["node"]["submitted"]).to be(true)
+    end
+  end
 end
