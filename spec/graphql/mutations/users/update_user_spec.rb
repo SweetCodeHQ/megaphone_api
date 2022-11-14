@@ -27,6 +27,27 @@ module Mutations
           )
         end
 
+        it "it updates a user loginCount" do
+          user = create(:user)
+
+          post '/graphql', params: { query: g_query2(id: user.id) }
+
+          expect(user.reload).to have_attributes(
+            login_count: 1
+          )
+        end
+
+        it "it updates a user clickedGenerateCount" do
+          user = create(:user)
+
+          post '/graphql', params: { query: g_query3(id: user.id) }
+
+          expect(user.reload).to have_attributes(
+            clicked_generate_count: 1
+          )
+
+        end
+
         def g_query(id:)
           <<~GQL
             mutation {
@@ -36,6 +57,34 @@ module Mutations
               }){
                 id
                 isAdmin
+              }
+            }
+          GQL
+        end
+
+        def g_query2(id:)
+          <<~GQL
+            mutation {
+              updateUser(input: {
+                id: #{id}
+                loginCount: 1
+              }){
+                id
+                loginCount
+              }
+            }
+          GQL
+        end
+
+        def g_query3(id:)
+          <<~GQL
+            mutation {
+              updateUser(input: {
+                id: #{id}
+                clickedGenerateCount: 1
+              }){
+                id
+                clickedGenerateCount
               }
             }
           GQL
