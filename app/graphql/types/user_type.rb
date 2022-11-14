@@ -9,7 +9,9 @@ module Types
     field :email,       String,  null: false
     field :is_admin,    Boolean, null: false
     field :is_blocked,  Boolean, null: false
-
+    field :clicked_generate_count, Integer, null: false
+    field :login_count,  Integer, null: false
+    
     def entities
       Loaders::AssociationLoader.for(object.class, :entities).load(object)
     end

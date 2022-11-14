@@ -12,6 +12,8 @@ RSpec.describe Types::QueryType, type: :request do
           id
           email
           isAdmin
+          loginCount
+          clickedGenerateCount
         }
       }
     GQL
@@ -33,7 +35,9 @@ RSpec.describe Types::QueryType, type: :request do
           expect(gql_response.data["user"]).to eq({
             "id" => user.id.to_s,
             "email" => user.email,
-            "isAdmin" => user.is_admin
+            "isAdmin" => user.is_admin,
+            "loginCount" => user.login_count,
+            "clickedGenerateCount" => user.clicked_generate_count
           })
         end
       end
