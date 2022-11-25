@@ -4,6 +4,8 @@ include GraphQL::TestHelpers
 RSpec.describe Types::QueryType, type: :request do
   describe 'get user' do
     let(:user) { create(:user) }
+    let(:topic) { create(:topic) }
+    let(:topic2) { create(:topic) }
 
     let(:query_type_one) { "user" }
     let(:query_string_one) { <<~GQL
@@ -14,6 +16,7 @@ RSpec.describe Types::QueryType, type: :request do
           isAdmin
           loginCount
           clickedGenerateCount
+          topicCount
         }
       }
     GQL
@@ -37,7 +40,8 @@ RSpec.describe Types::QueryType, type: :request do
             "email" => user.email,
             "isAdmin" => user.is_admin,
             "loginCount" => user.login_count,
-            "clickedGenerateCount" => user.clicked_generate_count
+            "clickedGenerateCount" => user.clicked_generate_count,
+            "topicCount" => user.topics.size
           })
         end
       end

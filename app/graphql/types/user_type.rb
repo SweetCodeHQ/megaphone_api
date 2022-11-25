@@ -11,13 +11,19 @@ module Types
     field :is_blocked,  Boolean, null: false
     field :clicked_generate_count, Integer, null: false
     field :login_count,  Integer, null: false
-    
+
+    field :topic_count,  Integer, null: false
+
     def entities
       Loaders::AssociationLoader.for(object.class, :entities).load(object)
     end
 
     def topics
       Loaders::AssociationLoader.for(object.class, :topics).load(object)
+    end
+
+    def topic_count
+      @object.topics.size
     end
 
     def keywords
