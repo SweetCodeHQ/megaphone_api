@@ -9,6 +9,7 @@ module Types
     field :name,      String,  null: false
 
     field :user_count, Int, null: false
+    field :topic_count, Int, null: false
 
     def markets
       Loaders::AssociationLoader.for(object.class, :markets).load(object)
@@ -20,6 +21,10 @@ module Types
 
     def user_count
       @object.users.size
+    end
+
+    def topic_count
+      @object.topics.size
     end
   end
 end
