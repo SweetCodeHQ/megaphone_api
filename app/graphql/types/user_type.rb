@@ -4,6 +4,8 @@ module Types
     field :topics,    [Types::TopicType],   null: true
     field :keywords,  [Types::KeywordType], null: true
 
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+
     field :id,          ID,      null: false
 
     field :email,       String,  null: false

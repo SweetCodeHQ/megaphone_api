@@ -17,6 +17,7 @@ RSpec.describe Types::QueryType, type: :request do
           loginCount
           clickedGenerateCount
           topicCount
+          createdAt
         }
       }
     GQL
@@ -43,7 +44,8 @@ RSpec.describe Types::QueryType, type: :request do
             "isAdmin" => user.is_admin,
             "loginCount" => user.login_count,
             "clickedGenerateCount" => user.clicked_generate_count,
-            "topicCount" => 2
+            "topicCount" => 2,
+            "createdAt" => Time.parse(user.created_at.to_s).iso8601
           })
         end
       end
