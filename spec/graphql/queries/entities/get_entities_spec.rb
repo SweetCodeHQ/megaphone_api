@@ -22,6 +22,7 @@ RSpec.describe Types::QueryType, type: :request do
         before do
           entity1
           entity2
+
           query query_string_all
         end
 
@@ -42,6 +43,9 @@ RSpec.describe Types::QueryType, type: :request do
       let(:user2)   {create(:user)}
       let(:user3)   {create(:user)}
 
+      let(:topic)   {create(:topic, user: user1)}
+      let(:topic2)   {create(:topic, user: user1)}
+      let(:topic3)   {create(:topic, user: user2)}
       let(:entity1) {create(:entity)}
       let(:entity2) {create(:entity)}
 
@@ -49,12 +53,13 @@ RSpec.describe Types::QueryType, type: :request do
       let(:user_entity2) {create(:user_entity, user: user2, entity: Entity.first)}
       let(:user_entity3) {create(:user_entity, user: user3, entity: Entity.last)}
 
-      let(:query_type_user_count) { "userCount" }
-      let(:query_string_user_count) { <<~GQL
+      let(:query_type_count) { "userCount" }
+      let(:query_string_count) { <<~GQL
         query entities {
           entities {
             name
             userCount
+            topicCount
           }
         }
       GQL
@@ -69,22 +74,27 @@ RSpec.describe Types::QueryType, type: :request do
         user_entity1
         user_entity2
         user_entity3
-        query query_string_user_count
+        topic
+        topic2
+        topic3
+        query query_string_count
       end
 
       it "should have no errors" do
         expect(gql_response.errors).to be_nil
       end
 
-      it "should pull user count with each entity" do
+      it "should pull user count and topic count with each entity" do
         expect(gql_response.data["entities"]).to be_an Array
         expect(gql_response.data["entities"].length).to be(2)
 
         expect(gql_response.data["entities"].first).to be_a Hash
-        expect(gql_response.data["entities"].first.keys).to eq(["name", "userCount"])
+        expect(gql_response.data["entities"].first.keys).to eq(["name", "userCount", "topicCount"])
         expect(gql_response.data["entities"].first["name"]).to eq(Entity.first.name)
         expect(gql_response.data["entities"].first["userCount"]).to eq(2)
         expect(gql_response.data["entities"].last["userCount"]).to eq(1)
+
+        expect(gql_response.data["entities"].first["topicCount"]).to eq(3)
       end
     end
 

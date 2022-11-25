@@ -12,6 +12,7 @@ RSpec.describe Types::QueryType, type: :request do
         user(email: $email) {
           id
           email
+          topicCount
           topics {
             id
             text
@@ -33,6 +34,7 @@ RSpec.describe Types::QueryType, type: :request do
 
       it 'should return topics for a user' do
         expect(gql_response.data["user"]["topics"]).to be_an Array
+        expect(gql_response.data["user"]["topicCount"]).to eq(1)
         expect(gql_response.data["user"]["topics"]).to eq([{
           "id" => topic.id.to_s,
           "text" => topic.text
