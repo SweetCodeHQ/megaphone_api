@@ -4,6 +4,7 @@ describe Entity do
   describe 'relationships' do
     it { should have_many :entity_markets }
     it { should have_many(:markets).through(:entity_markets) }
+    it { should have_many(:topics).through(:users) }
   end
 
   describe 'validations' do
