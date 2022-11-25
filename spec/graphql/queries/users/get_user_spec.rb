@@ -25,6 +25,8 @@ RSpec.describe Types::QueryType, type: :request do
       describe "happy path" do
         before do
           user
+          topic
+          topic2
           query query_string_one, variables: { email: "#{user.email}" }
         end
 
@@ -41,7 +43,7 @@ RSpec.describe Types::QueryType, type: :request do
             "isAdmin" => user.is_admin,
             "loginCount" => user.login_count,
             "clickedGenerateCount" => user.clicked_generate_count,
-            "topicCount" => user.topics.size
+            "topicCount" => 2
           })
         end
       end
