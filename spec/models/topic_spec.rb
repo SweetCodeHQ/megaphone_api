@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Topic do
   describe 'relationships' do
     it { should belong_to :user }
+    it { should have_one :abstract }
   end
 
   describe 'validations' do
