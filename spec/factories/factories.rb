@@ -45,4 +45,9 @@ FactoryBot.define do
     user { User.last }
     text { Faker::Alphanumeric.unique.alpha(number: 10) }
   end
+
+  factory :abstract do
+    topic { Topic.last }
+    text { Faker::Lorem.paragraph(sentence_count: 10)}
+  end
 end
