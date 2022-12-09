@@ -68,5 +68,9 @@ module Types
     field :create_abstract, mutation: Mutations::Abstracts::CreateAbstract do
       description 'Create an abstract'
     end
+
+    field :update_abstract, mutation: Mutations::Abstracts::UpdateAbstract do
+      description 'Update an abstract'
+    end
   end
 end
