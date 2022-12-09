@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_14_121244) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_08_030745) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abstracts", force: :cascade do |t|
+    t.bigint "topic_id", null: false
+    t.string "text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topic_id"], name: "index_abstracts_on_topic_id"
+  end
 
   create_table "entities", force: :cascade do |t|
     t.string "url", null: false
@@ -89,6 +97,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_121244) do
     t.integer "clicked_generate_count", default: 0
   end
 
+  add_foreign_key "abstracts", "topics"
   add_foreign_key "entity_markets", "entities"
   add_foreign_key "entity_markets", "markets"
   add_foreign_key "market_keywords", "keywords"
