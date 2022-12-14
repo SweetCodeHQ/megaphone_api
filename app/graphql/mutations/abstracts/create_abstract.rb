@@ -1,7 +1,7 @@
 module Mutations
   module Abstracts
     class CreateAbstract < ::Mutations::BaseMutation
-      argument :topic_id,     String, required: true
+      argument :topic_id,     ID, required: true
       argument :text,         String, required: true
 
       type Types::AbstractType
