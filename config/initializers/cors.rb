@@ -15,7 +15,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
 
   allow do
-    origins "https://curate.fixate.com"
+    origins "https://curate.fixate.io"
 
     resource "*",
       headers: :any,
