@@ -9,7 +9,7 @@ class SignupAlertEmailsController < ApplicationController
     email_body = "#{user.email} just registered."
 
     from = SendGrid::Email.new(email: 'robert@fixate.io')
-    to = SendGrid::Email.new(email: 'robert@fixate.io')
+    to = SendGrid::Email.new(email: 'mega@fixate.io')
     subject = 'New User Alert'
     content = SendGrid::Content.new(type: 'text/plain', value: email_body)
 
