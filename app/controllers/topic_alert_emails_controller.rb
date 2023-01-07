@@ -9,7 +9,7 @@ class TopicAlertEmailsController < ApplicationController
     email_body = "#{user.email} has sent a request for the following topic: #{topic.text}. The abstract is as follows: #{topic.abstract.text}."
 
     from = SendGrid::Email.new(email: 'robert@fixate.io')
-    to = SendGrid::Email.new(email: 'robert@fixate.io')
+    to = SendGrid::Email.new(email: 'mega@fixate.io')
     subject = 'New Topic Request'
     content = SendGrid::Content.new(type: 'text/plain', value: email_body)
 

@@ -29,3 +29,6 @@
 /config/master.key
 /coverage
 sendgrid.env
+
+# Ignore application configuration
+/config/application.yml
