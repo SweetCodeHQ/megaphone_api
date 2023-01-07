@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "https://megaphone-production.herokuapp.com"
+    origins ENV["CORS_ORIGIN1"]
 
     resource "*",
       headers: :any,
@@ -15,7 +15,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
 
   allow do
-    origins "https://curate.fixate.io"
+    origins ENV["CORS_ORIGIN2"]
 
     resource "*",
       headers: :any,

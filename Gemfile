@@ -44,6 +44,7 @@ gem "bootsnap", require: false
   gem 'graphql-batch'
   gem 'batch-loader'
   gem 'sendgrid-ruby'
+  gem 'figaro'
 group :development, :test do
   gem "rspec-rails"
   gem "pry"
