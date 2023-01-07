@@ -37,6 +37,23 @@ module Mutations
             }
           GQL
         end
+
+        it "should also destroy the associated abstract" do
+          user = create(:user)
+          topic1 = create(:topic, user: user)
+          topic2 = create(:topic, user: user)
+          abstract1 = create(:abstract, topic: topic1)
+          abstract2 = create(:abstract, topic: topic2)
+
+          post '/graphql', params: { query: g_query(id: topic1.id) }
+
+          expect(User.all.size).to eq(1)
+          expect(Topic.all.size).to eq(1)
+          expect(Abstract.all.size).to eq(1)
+
+          expect { Topic.find(topic1.id) }.to raise_error(ActiveRecord::RecordNotFound)
+          expect { Abstract.find(abstract1.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        end
       end
 
       describe 'sad path' do
