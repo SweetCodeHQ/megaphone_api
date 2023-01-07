@@ -6,6 +6,7 @@ RSpec.describe "create emails with SendGrid", type: :request do
       it 'sends an email' do
         create(:user)
         create(:topic)
+        create(:abstract)
 
         params = { topic_id: Topic.last.id }
 
