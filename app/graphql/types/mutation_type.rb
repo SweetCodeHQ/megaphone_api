@@ -72,5 +72,9 @@ module Types
     field :update_abstract, mutation: Mutations::Abstracts::UpdateAbstract do
       description 'Update an abstract'
     end
+
+    field :destroy_abstract, mutation: Mutations::Abstracts::DestroyAbstract do
+      description 'Destroy an abstract'
+    end
   end
 end
