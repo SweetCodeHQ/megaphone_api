@@ -45,6 +45,11 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :topic, Types::TopicType, null: true do
+      description 'Find topic by id'
+      argument :id, ID, required: true
+    end
+
     field :random_keywords, [Types::KeywordType], null: true do
       description 'Get random keywords'
     end
@@ -69,6 +74,10 @@ module Types
       Keyword.find(id)
     end
 
+    def topic(id:)
+      Topic.find(id)
+    end
+
     def random_keywords
       Keyword.order("RANDOM()").limit(10)
     end
@@ -84,6 +93,7 @@ module Types
     def entities
       Entity.all
     end
+
 
     def entities_connection
       ::Entity.all
