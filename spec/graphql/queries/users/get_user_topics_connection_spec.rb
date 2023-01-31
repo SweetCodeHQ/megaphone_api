@@ -8,6 +8,7 @@ RSpec.describe Types::QueryType, type: :request do
       <<~GQL
         query($userId: ID!) {
           userTopicsConnection(userId: $userId) {
+            totalCount
             pageInfo {
             endCursor
             startCursor
