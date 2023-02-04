@@ -7,6 +7,7 @@ module Mutations
       argument :is_blocked,   Boolean,    required: false
       argument :login_count, Integer, required: false
       argument :clicked_generate_count, Integer, required: false
+      argument :industry, Integer, required: false
 
       type Types::UserType
 
