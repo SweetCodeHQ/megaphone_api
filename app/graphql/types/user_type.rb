@@ -13,8 +13,8 @@ module Types
     field :is_blocked,  Boolean, null: false
     field :clicked_generate_count, Integer, null: false
     field :login_count,  Integer, null: false
-
     field :topic_count,  Integer, null: false
+    field :industry, String, null: false
 
     def entities
       Loaders::AssociationLoader.for(object.class, :entities).load(object)
