@@ -100,6 +100,9 @@ RSpec.describe Types::QueryType, type: :request do
 
       json = gql_response.data
 
+      expect(json['userTopicsConnection'].keys).to eq(["totalCount", "pageInfo", "edges"])
+      expect(json['userTopicsConnection']['totalCount']).to eq(30)
+
       page_info = json['userTopicsConnection']['pageInfo']
       topics = json['userTopicsConnection']['edges']
 

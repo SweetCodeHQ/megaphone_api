@@ -13,8 +13,8 @@ module Types
     field :is_blocked,  Boolean, null: false
     field :clicked_generate_count, Integer, null: false
     field :login_count,  Integer, null: false
-
     field :topic_count,  Integer, null: false
+    field :industry,     Integer, null: false
 
     def entities
       Loaders::AssociationLoader.for(object.class, :entities).load(object)
@@ -30,6 +30,10 @@ module Types
 
     def keywords
       Loaders::AssociationLoader.for(object.class, :keywords).load(object)
+    end
+
+    def industry
+      User.industries[@object.industry]
     end
   end
 end

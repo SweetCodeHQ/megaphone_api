@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_08_030745) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_04_143326) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,6 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_08_030745) do
     t.boolean "is_blocked", default: false
     t.integer "login_count", default: 0
     t.integer "clicked_generate_count", default: 0
+    t.integer "industry", default: 0
   end
 
   add_foreign_key "abstracts", "topics"

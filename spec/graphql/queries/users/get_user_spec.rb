@@ -12,6 +12,7 @@ RSpec.describe Types::QueryType, type: :request do
       query user($email: String!) {
         user(email: $email) {
           id
+          industry
           email
           isAdmin
           loginCount
@@ -40,6 +41,7 @@ RSpec.describe Types::QueryType, type: :request do
           expect(gql_response.data["user"]).to be_a Hash
           expect(gql_response.data["user"]).to eq({
             "id" => user.id.to_s,
+            "industry" => 0,
             "email" => user.email,
             "isAdmin" => user.is_admin,
             "loginCount" => user.login_count,

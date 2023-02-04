@@ -10,7 +10,8 @@ module Mutations
           post '/graphql', params: { query: g_query(id: user.id) }
 
           expect(user.reload).to have_attributes(
-            is_admin: true
+            is_admin: true,
+            industry: "bio_informatics"
           )
         end
 
@@ -23,7 +24,8 @@ module Mutations
 
           expect(data).to include(
             id: "#{ user2.reload.id }",
-            isAdmin: true
+            isAdmin: true,
+            industry: 3
           )
         end
 
@@ -54,9 +56,11 @@ module Mutations
               updateUser(input: {
                 id: #{id}
                 isAdmin: true
+                industry: 3
               }){
                 id
                 isAdmin
+                industry
               }
             }
           GQL
