@@ -11,7 +11,7 @@ module Mutations
 
           expect(user.reload).to have_attributes(
             is_admin: true,
-            industry: "bio_informatics"
+            industry: "monitoring_and_observability"
           )
         end
 
