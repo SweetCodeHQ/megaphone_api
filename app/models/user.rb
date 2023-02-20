@@ -10,18 +10,13 @@ class User < ApplicationRecord
 
   enum :industry, {
     not_selected: 0,
-    application_development: 1,
+    web_application_development: 1,
     application_security: 2,
-    bio_informatics: 3,
-    blockchain: 4,
-    career_development: 5,
-    contributor_opinion: 6,
+    monitoring_and_observability: 3,
+    information_technology: 4,
+    machine_learning: 5,
+    data_science: 6,
     devops: 7,
-    it_infrastructure: 8,
-    machine_learning: 9,
-    monitoring_and_observability: 10,
-    qa_and_testing: 11,
-    tooling: 12,
-    web_development: 13,
+    quality_and_testing: 8
   }
 end
