@@ -6,6 +6,8 @@ describe Keyword do
     it { should have_many(:markets).through(:market_keywords) }
     it { should have_many :user_keywords }
     it { should have_many(:users).through(:user_keywords) }
+    it { should have_many :topic_keywords }
+    it { should have_many(:topics).through(:topic_keywords) } 
   end
 
   describe 'validations' do
