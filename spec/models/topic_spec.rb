@@ -4,6 +4,8 @@ describe Topic do
   describe 'relationships' do
     it { should belong_to :user }
     it { should have_one(:abstract).dependent(:destroy) }
+    it { should have_many(:topic_keywords) }
+    it { should have_many(:keywords).through(:topic_keywords)}
   end
 
   describe 'validations' do

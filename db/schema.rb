@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_04_143326) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_04_203945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,6 +60,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_143326) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "topic_keywords", force: :cascade do |t|
+    t.bigint "topic_id", null: false
+    t.bigint "keyword_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["keyword_id"], name: "index_topic_keywords_on_keyword_id"
+    t.index ["topic_id"], name: "index_topic_keywords_on_topic_id"
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "text", null: false
     t.bigint "user_id", null: false
@@ -103,6 +112,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_143326) do
   add_foreign_key "entity_markets", "markets"
   add_foreign_key "market_keywords", "keywords"
   add_foreign_key "market_keywords", "markets"
+  add_foreign_key "topic_keywords", "keywords"
+  add_foreign_key "topic_keywords", "topics"
   add_foreign_key "topics", "users"
   add_foreign_key "user_entities", "entities"
   add_foreign_key "user_entities", "users"
