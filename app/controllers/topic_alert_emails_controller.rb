@@ -5,8 +5,9 @@ class TopicAlertEmailsController < ApplicationController
     # need to clean this up and add require/permit topic_params
     topic = Topic.find(params["topic_id"])
     user = topic.user
+    text = topic&.abstract&.text || "No abstract"
 
-    email_body = "#{user.email} has sent a request for the following topic: #{topic.text}. The abstract is as follows: #{topic.abstract.text}."
+    email_body = "#{user.email} has sent a request for the following topic: #{topic.text}. The abstract is as follows: #{text}."
 
     from = SendGrid::Email.new(email: 'robert@fixate.io')
     to = SendGrid::Email.new(email: ENV["ALERT_EMAIL_ADDRESS"])
