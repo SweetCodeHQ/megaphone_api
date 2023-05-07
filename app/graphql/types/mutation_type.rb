@@ -65,6 +65,10 @@ module Types
       description 'Create a user keyword'
     end
 
+    field :create_topic_keyword, mutation: Mutations::TopicKeywords::CreateTopicKeyword do
+      description 'Create a topic keyword'
+    end
+
     field :create_abstract, mutation: Mutations::Abstracts::CreateAbstract do
       description 'Create an abstract'
     end
