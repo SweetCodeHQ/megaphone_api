@@ -6,7 +6,11 @@ module Mutations
       type Types::KeywordType
 
       def resolve(**attributes)
-        Keyword.create!(attributes)
+        if Keyword.find_by(word: attributes[:word])
+          Keyword.find_by(word: attributes[:word])
+        else
+          Keyword.create!(attributes)
+        end
       end
     end
   end
