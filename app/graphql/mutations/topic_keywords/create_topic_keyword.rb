@@ -7,6 +7,10 @@ module Mutations
       type Types::TopicKeywordType
 
       def resolve(**attributes)
+        topic_keyword = TopicKeyword.where(topic_id: attributes[:topic_id]).where(keyword_id: attributes[:keyword_id]).first
+
+        topic_keyword ?
+        topic_keyword :
         TopicKeyword.create!(attributes)
       end
     end
