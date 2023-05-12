@@ -7,6 +7,12 @@ describe TopicKeyword do
   end
 
   describe 'validations' do
-
+    before do
+      create(:user)
+      create(:topic)
+      create(:keyword)
+      create(:topic_keyword)
+    end
+    it { should validate_uniqueness_of :keyword }
   end
 end

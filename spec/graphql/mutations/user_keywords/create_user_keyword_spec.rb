@@ -29,6 +29,37 @@ module Mutations
           )
         end
 
+        it 'does not create a new user keyword if it already exists' do
+          user  = create(:user)
+          keyword = create(:keyword)
+
+          expect do
+            post '/graphql', params:
+              { query: g_query(user_id: user.id, word: keyword.word)
+              }
+
+            post '/graphql', params:
+              { query: g_query(user_id: user.id, word: keyword.word)
+              }
+          end.to change { UserKeyword.count }.by(1)
+        end
+
+        it 'returns a user keyword if it already exists' do
+          user = create(:user)
+          keyword = create(:keyword)
+
+          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }
+
+          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }
+
+          json = JSON.parse(response.body, symbolize_names: true)
+          data = json[:data][:createUserKeyword]
+
+          expect(data).to include(
+            id: "#{UserKeyword.first.id}"
+          )
+        end
+
         def g_query(user_id:, word:)
           <<~GQL
             mutation {
