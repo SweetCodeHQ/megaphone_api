@@ -23,6 +23,31 @@ module Mutations
           )
         end
 
+        it 'returns a keyword if it already exists' do
+
+          expect do
+            post '/graphql', params: { query: g_query(word: "Widget") }
+
+            post '/graphql', params: { query: g_query(word: "Widget") }
+          end.to change { Keyword.count }.by(1)
+        end
+
+        it 'returns the keyword if it already exists' do
+          post '/graphql', params: { query: g_query(word: "Wide") }
+
+          post '/graphql', params: { query: g_query(word: "Widget") }
+
+          post '/graphql', params: { query: g_query(word: "Wide") }
+
+          json = JSON.parse(response.body, symbolize_names: true)
+          data = json[:data][:createKeyword]
+
+          expect(data).to include(
+            id: "#{Keyword.first.id}",
+            word: "Wide"
+          )
+        end
+
         def g_query(word:)
           <<~GQL
             mutation createKeyword {
