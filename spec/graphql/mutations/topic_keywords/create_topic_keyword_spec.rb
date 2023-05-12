@@ -31,37 +31,45 @@ module Mutations
           )
         end
 
+        it 'does not create a new topic keyword if it already exists' do
+          user  = create(:user)
+          topic = create(:topic)
+          keyword = create(:keyword)
+
+          expect do
+            post '/graphql', params:
+              { query: g_query(keyword_id: keyword.id, topic_id: topic.id)
+              }
+
+            post '/graphql', params:
+              { query: g_query(keyword_id: keyword.id, topic_id: topic.id)
+              }
+          end.to change { TopicKeyword.count }.by(1)
+        end
+
+        it 'returns a topic keyword if it already exists' do
+          user = create(:user)
+          topic = create(:topic)
+          keyword = create(:keyword)
+
+          post '/graphql', params: { query: g_query(keyword_id: keyword.id, topic_id: topic.id) }
+
+          post '/graphql', params: { query: g_query(keyword_id: keyword.id, topic_id: topic.id) }
+
+          json = JSON.parse(response.body, symbolize_names: true)
+          data = json[:data][:createTopicKeyword]
+
+          expect(data).to include(
+            id: "#{TopicKeyword.first.id}"
+          )
+        end
+
         def g_query(topic_id:, keyword_id:)
           <<~GQL
             mutation {
               createTopicKeyword( input: {
                 topicId: "#{topic_id}"
                 keywordId: "#{keyword_id}"
-              } ){
-                id
-              }
-            }
-          GQL
-        end
-      end
-
-      describe 'sad path' do
-        it 'returns errors' do
-          user  = create(:user)
-          keyword = create(:keyword)
-          topic = create(:topic)
-
-          post '/graphql', params: { query: g_query(user_id: topic.id, keyword_id: keyword.id) }
-
-          json = JSON.parse(response.body, symbolize_names: true)
-          expect(json).to have_key(:errors)
-        end
-
-        def g_query(user_id:, keyword_id:)
-          <<~GQL
-            mutation {
-              createUserEntity( input: {
-                userId: "#{user_id}"
               } ){
                 id
               }
