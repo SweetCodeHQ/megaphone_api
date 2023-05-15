@@ -11,6 +11,7 @@ module Types
     field :email,       String,  null: false
     field :is_admin,    Boolean, null: false
     field :is_blocked,  Boolean, null: false
+    field :onboarded,   Boolean, null: false
     field :clicked_generate_count, Integer, null: false
     field :login_count,  Integer, null: false
     field :topic_count,  Integer, null: false

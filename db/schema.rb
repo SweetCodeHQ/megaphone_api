@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_04_203945) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_15_141505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -105,6 +105,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_203945) do
     t.integer "login_count", default: 0
     t.integer "clicked_generate_count", default: 0
     t.integer "industry", default: 0
+    t.boolean "onboarded", default: false
   end
 
   add_foreign_key "abstracts", "topics"
