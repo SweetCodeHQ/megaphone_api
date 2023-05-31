@@ -56,6 +56,7 @@ RSpec.describe Types::QueryType, type: :request do
     <<~GQL
       query {
         entitiesConnection {
+          totalCount
           pageInfo {
           endCursor
           startCursor
@@ -122,6 +123,7 @@ RSpec.describe Types::QueryType, type: :request do
     <<~GQL
       query {
         entitiesConnection(before: "MjE", last: 10) {
+          totalCount
           pageInfo {
           endCursor
           startCursor
