@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_141505) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_31_174125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_141505) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["topic_id"], name: "index_abstracts_on_topic_id"
+  end
+
+  create_table "banners", force: :cascade do |t|
+    t.string "text"
+    t.string "link"
+    t.integer "purpose"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "entities", force: :cascade do |t|
