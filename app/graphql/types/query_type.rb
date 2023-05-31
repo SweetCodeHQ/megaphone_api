@@ -58,6 +58,10 @@ module Types
       description 'Get the top 5 most searched keywords'
     end
 
+    field :banners, [Types::BannerType], null: true do
+      description 'Return 4 banners'
+    end
+
     def user(email:)
       User.where(email: email).limit(1).first
     end
@@ -105,6 +109,10 @@ module Types
 
     def user_topics_connection(user_id:)
       ::Topic.where(user_id: user_id).order(submitted: :desc).order(created_at: :desc)
+    end
+
+    def banners
+      Banner.all
     end
   end
 end
