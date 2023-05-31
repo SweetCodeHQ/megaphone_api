@@ -55,4 +55,10 @@ FactoryBot.define do
     topic { Topic.last }
     text { Faker::Lorem.paragraph(sentence_count: 10)}
   end
+
+  factory :banner do
+    purpose { (0..3).to_a.sample }
+    link { Faker::Internet.domain_name }
+    text { Faker::DcComics.title }
+  end
 end

@@ -80,5 +80,13 @@ module Types
     field :destroy_abstract, mutation: Mutations::Abstracts::DestroyAbstract do
       description 'Destroy an abstract'
     end
+
+    field :create_banner, mutation: Mutations::Banners::CreateBanner do
+      description 'Create a banner'
+    end
+
+    field :update_banner, mutation: Mutations::Banners::UpdateBanner do
+      description 'Update a banner'
+    end
   end
 end
