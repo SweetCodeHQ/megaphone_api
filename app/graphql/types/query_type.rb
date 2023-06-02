@@ -112,7 +112,7 @@ module Types
     end
 
     def banners
-      Banner.all
+      Banner.all.order(:id)
     end
   end
 end
