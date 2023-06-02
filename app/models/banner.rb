@@ -7,4 +7,5 @@ class Banner < ApplicationRecord
   }
 
   validates_presence_of :purpose, :text
+  validates_uniqueness_of :purpose
 end
