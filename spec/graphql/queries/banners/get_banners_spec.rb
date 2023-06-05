@@ -15,6 +15,7 @@ RSpec.describe Types::QueryType, type: :request do
           id
           text
           link
+          updatedAt
         }
       }
     GQL
@@ -39,7 +40,7 @@ RSpec.describe Types::QueryType, type: :request do
           expect(gql_response.data["banners"]).to be_an Array
           expect(gql_response.data["banners"].length).to be(4)
           expect(gql_response.data["banners"].first.keys).to eq(["id", "text",
-          "link"])
+          "link", "updatedAt"])
         end
 
         it 'orders banners by id' do
