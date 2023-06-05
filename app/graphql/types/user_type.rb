@@ -5,6 +5,10 @@ module Types
     field :keywords,  [Types::KeywordType], null: true
 
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :accepted_eula_on, GraphQL::Types::ISO8601DateTime, null: true
+    field :accepted_privacy_on, GraphQL::Types::ISO8601DateTime, null: true
+    field :saw_banner_on, GraphQL::Types::ISO8601DateTime, null: true
+    field :accepted_cookies_on, GraphQL::Types::ISO8601DateTime, null: true
 
     field :id,          ID,      null: false
 
@@ -16,6 +20,7 @@ module Types
     field :login_count,  Integer, null: false
     field :topic_count,  Integer, null: false
     field :industry,     Integer, null: false
+
 
     def entities
       Loaders::AssociationLoader.for(object.class, :entities).load(object)
