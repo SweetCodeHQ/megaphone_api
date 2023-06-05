@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_31_174125) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_05_184935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -114,6 +114,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_174125) do
     t.integer "clicked_generate_count", default: 0
     t.integer "industry", default: 0
     t.boolean "onboarded", default: false
+    t.datetime "accepted_eula_on"
+    t.datetime "accepted_cookies_on"
+    t.datetime "accepted_privacy_on"
+    t.datetime "saw_banner_on"
   end
 
   add_foreign_key "abstracts", "topics"
