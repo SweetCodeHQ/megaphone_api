@@ -9,7 +9,12 @@ module Mutations
       argument :clicked_generate_count, Integer, required: false
       argument :industry, Integer, required: false
       argument :onboarded, Boolean, required: false
-      
+
+      argument :accepted_eula_on, GraphQL::Types::ISO8601DateTime, required: false
+      argument :accepted_privacy_on, GraphQL::Types::ISO8601DateTime, required: false
+      argument :saw_banner_on, GraphQL::Types::ISO8601DateTime, required: false
+      argument :accepted_cookies_on, GraphQL::Types::ISO8601DateTime, required: false
+
       type Types::UserType
 
       def resolve(id:, **attributes)
