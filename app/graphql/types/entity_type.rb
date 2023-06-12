@@ -7,7 +7,7 @@ module Types
 
     field :url,       String,  null: false
     field :name,      String,  null: true
-    field :credits,   Integer, null: true
+    field :credits,   Int, null: true
 
     field :user_count, Int, null: false
     field :topic_count, Int, null: false
