@@ -5,6 +5,6 @@ class Entity < ApplicationRecord
   has_many :markets, through: :entity_markets
   has_many :topics, through: :users
 
-  validates_presence_of :url, :name
-  validates :url, :name, uniqueness: true
+  validates_presence_of :url
+  validates :url, uniqueness: true
 end

@@ -1,9 +1,10 @@
 module Mutations
   module Entities
     class UpdateEntity < ::Mutations::BaseMutation
-      argument :id,               ID,                          required: true
-      argument :name,             String,                      required: false
-      argument :url,              String,                      required: false
+      argument :id,       ID,     required: true
+      argument :name,     String, required: false
+      argument :url,      String, required: false
+      argument :credits,  Integer, required: false
 
       type Types::EntityType
 

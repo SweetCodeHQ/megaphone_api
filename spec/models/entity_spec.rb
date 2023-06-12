@@ -12,10 +12,7 @@ describe Entity do
       create(:entity)
     end
     it { should validate_presence_of :url }
-    it { should validate_presence_of :name }
-
     it { should validate_uniqueness_of :url }
-    it { should validate_uniqueness_of :name }
 
   end
 end
