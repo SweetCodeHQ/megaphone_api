@@ -10,7 +10,7 @@ module Mutations
           post '/graphql', params: { query: g_query(id: entity.id) }
 
           expect(entity.reload).to have_attributes(
-            name: "New Name"
+            credits: 10
           )
         end
 
@@ -23,7 +23,7 @@ module Mutations
 
           expect(data).to include(
             id: "#{ entity2.reload.id }",
-            name: "New Name"
+            credits: 10
           )
         end
 
@@ -32,10 +32,10 @@ module Mutations
             mutation {
               updateEntity(input: {
                 id: #{id}
-                name: "New Name"
+                credits: 10
               }){
                 id
-                name
+                credits
                 url
               }
             }
