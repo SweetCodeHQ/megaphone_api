@@ -12,6 +12,7 @@ RSpec.describe Types::QueryType, type: :request do
           id
           url
           name
+          credits
         }
       }
     GQL
@@ -27,12 +28,13 @@ RSpec.describe Types::QueryType, type: :request do
           expect(gql_response.errors).to be_nil
         end
 
-        it 'should return one user' do
+        it 'should return one entity' do
           expect(gql_response.data["entity"]).to be_a Hash
           expect(gql_response.data["entity"]).to eq({
             "id"    => entity.id.to_s,
             "name"  => entity.name,
-            "url"   => entity.url
+            "url"   => entity.url,
+            "credits" => entity.credits
           })
         end
       end

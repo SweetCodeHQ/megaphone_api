@@ -6,7 +6,8 @@ module Types
     field :id,        ID, null: false
 
     field :url,       String,  null: false
-    field :name,      String,  null: false
+    field :name,      String,  null: true
+    field :credits,   Integer, null: false
 
     field :user_count, Int, null: false
     field :topic_count, Int, null: false
