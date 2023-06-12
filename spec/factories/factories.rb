@@ -9,7 +9,6 @@ FactoryBot.define do
   end
 
   factory :entity do
-    name        { Faker::Company.unique.name }
     url         { Faker::Internet.unique.domain_name }
   end
 
