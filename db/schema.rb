@@ -35,7 +35,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_12_005132) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "credits", default: 0
+    t.integer "credits"
   end
 
   create_table "entity_markets", force: :cascade do |t|
