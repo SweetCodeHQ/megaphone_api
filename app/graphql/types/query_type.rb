@@ -13,6 +13,10 @@ module Types
       description 'Find all Fixate users'
     end
 
+    field :waitlist, [Types::UserType], null: true do
+      description 'Show users on waitlist'
+    end
+
     field :users_connection, Types::UserType.connection_type, null: false do
       description 'Find all users with pagination'
     end
@@ -113,6 +117,10 @@ module Types
 
     def banners
       Banner.all.order(:id)
+    end
+
+    def waitlist
+      User.where(login_count: 0)
     end
   end
 end
