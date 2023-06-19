@@ -3,9 +3,10 @@ module Types
     field :keywords, [Types::KeywordType], null: true
     field :abstract, Types::AbstractType, null: true
 
-    field :id,        ID,         null: false
-    field :text,      String,     null: false
-    field :submitted, Boolean,    null: false
+    field :id,            ID,         null: false
+    field :text,          String,     null: false
+    field :submitted,     Boolean,    null: false
+    field :content_type,  Integer,    null: false
 
     def abstract
       Loaders::AssociationLoader.for(object.class, :abstract).load(object)
@@ -13,6 +14,10 @@ module Types
 
     def keywords
       Loaders::AssociationLoader.for(object.class, :keywords).load(object)
+    end
+
+    def content_type
+      Topic.content_types[@object.content_type]
     end
   end
 end
