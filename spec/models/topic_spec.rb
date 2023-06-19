@@ -15,5 +15,6 @@ describe Topic do
     end
     it { should validate_presence_of :text }
     it { should validate_uniqueness_of :text }
+    it { should define_enum_for :content_type }
   end
 end
