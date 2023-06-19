@@ -13,6 +13,7 @@ RSpec.describe Types::QueryType, type: :request do
         topic(id: $id) {
           id
           text
+          contentType
           abstract {
             id
             text
@@ -39,6 +40,7 @@ RSpec.describe Types::QueryType, type: :request do
           expect(gql_response.data["topic"]).to eq({
             "id" => topic.id.to_s,
             "text" => topic.text,
+            "contentType" => 0,
             "abstract" => {
               "id" => abstract.id.to_s,
               "text" => abstract.text

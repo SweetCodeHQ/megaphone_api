@@ -4,6 +4,7 @@ module Mutations
       argument :id,      ID,         required: true
       argument :text,    String,     required: false
       argument :submitted, Boolean, required: false
+      argument :content_type, Integer, required: false
 
       type Types::TopicType
 
