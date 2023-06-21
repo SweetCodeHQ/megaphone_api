@@ -4,7 +4,7 @@ module Mutations
       argument :id,       ID,     required: true
       argument :name,     String, required: false
       argument :url,      String, required: false
-      argument :credits,  Integer, required: false
+      argument :credits,  Float, required: false
 
       type Types::EntityType
 
