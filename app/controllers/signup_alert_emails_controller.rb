@@ -2,9 +2,7 @@ class SignupAlertEmailsController < ApplicationController
   require 'sendgrid-ruby'
 
   def create
-    # need to clean this up and add require/permit topic_params
-    #Should also pull redundant code to ApplicationController
-    user = User.find(params["user_id"])
+    user = User.find(user_params["user_id"])
 
     email_body = "#{user.email} just registered."
 
@@ -17,5 +15,11 @@ class SignupAlertEmailsController < ApplicationController
 
     sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
     response = sg.client.mail._('send').post(request_body: mail.to_json)
+  end
+
+  private
+
+  def user_params
+    params.permit(:user_id)
   end
 end
