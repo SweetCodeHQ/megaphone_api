@@ -13,10 +13,12 @@ RSpec.describe Types::QueryType, type: :request do
           url
           name
           credits
+          requestInProgress
         }
       }
     GQL
     }
+
     describe "return one entity" do
       describe "happy path" do
         before do
@@ -34,7 +36,8 @@ RSpec.describe Types::QueryType, type: :request do
             "id"    => entity.id.to_s,
             "name"  => entity.name,
             "url"   => entity.url,
-            "credits" => entity.credits
+            "credits" => entity.credits,
+            "requestInProgress" => false
           })
         end
       end
