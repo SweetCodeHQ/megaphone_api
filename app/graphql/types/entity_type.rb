@@ -12,6 +12,8 @@ module Types
     field :user_count, Int, null: false
     field :topic_count, Int, null: false
 
+    field :request_in_progress, Boolean, null: false
+
     def markets
       Loaders::AssociationLoader.for(object.class, :markets).load(object)
     end

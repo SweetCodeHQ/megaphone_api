@@ -5,6 +5,7 @@ module Mutations
       argument :name,     String, required: false
       argument :url,      String, required: false
       argument :credits,  Float, required: false
+      argument :request_in_progress, Boolean, required: false
 
       type Types::EntityType
 
