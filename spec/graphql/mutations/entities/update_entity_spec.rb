@@ -15,15 +15,15 @@ module Mutations
         end
 
         it 'returns an entity' do
-          entity2 = create(:entity)
-
+          entity2 = create(:entity, request_in_progress: true)
           post '/graphql', params: { query: g_query(id: entity2.id) }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateEntity]
 
           expect(data).to include(
             id: "#{ entity2.reload.id }",
-            credits: 10
+            credits: 10,
+            requestInProgress: false
           )
         end
 
@@ -37,6 +37,7 @@ module Mutations
                 id
                 credits
                 url
+                requestInProgress
               }
             }
           GQL

@@ -10,8 +10,15 @@ module Mutations
       type Types::EntityType
 
       def resolve(id:, **attributes)
-        Entity.find(id).tap do |entity|
-          entity.update!(attributes)
+        if attributes.keys.include?(:credits)
+          attributes[:request_in_progress] = false
+          Entity.find(id).tap do |entity|
+            entity.update!(attributes)
+          end
+        else
+          Entity.find(id).tap do |entity|
+            entity.update!(attributes)
+          end
         end
       end
     end
