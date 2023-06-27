@@ -2,7 +2,7 @@ class Topic < ApplicationRecord
   belongs_to :user
   has_one :abstract, dependent: :destroy
 
-  has_many :topic_keywords
+  has_many :topic_keywords, dependent: :destroy
   has_many :keywords, through: :topic_keywords
 
   enum :content_type, {
