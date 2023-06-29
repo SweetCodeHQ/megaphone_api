@@ -13,6 +13,10 @@ module Types
       description 'Create an entity'
     end
 
+    field :destroy_entity, mutation: Mutations::Entities::DestroyEntity do
+      description 'Destroy an entity'
+    end
+
     field :create_market, mutation: Mutations::Markets::CreateMarket do
       description 'Create a market'
     end
