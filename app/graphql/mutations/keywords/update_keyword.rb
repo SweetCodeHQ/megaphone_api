@@ -9,7 +9,7 @@ module Mutations
 
       def resolve(word:)
         keyword = Keyword.find_by(word: word)
-        Keyword.increment_counter(:search_count, keyword.id)
+        Keyword.increment_counter(:search_count, keyword.id, touch: true)
         keyword.reload
       end
     end
