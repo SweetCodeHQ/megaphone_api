@@ -27,7 +27,7 @@ module Types
     end
 
     def topics
-      Loaders::AssociationLoader.for(object.class, :topics).load(object)
+       @object.topics.sort {|topic| topic.created_at} 
     end
 
     def topic_count
