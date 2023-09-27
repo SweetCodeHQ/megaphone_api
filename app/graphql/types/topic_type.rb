@@ -7,6 +7,7 @@ module Types
     field :text,          String,     null: false
     field :submitted,     Boolean,    null: false
     field :content_type,  Integer,    null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
 
     def abstract
       Loaders::AssociationLoader.for(object.class, :abstract).load(object)
