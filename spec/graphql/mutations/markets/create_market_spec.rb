@@ -7,12 +7,12 @@ module Mutations
         it 'creates a market' do
 
           expect do
-            post '/graphql', params: { query: g_query(name: "Widget") }
+            post '/graphql', params: { query: g_query(name: "Widget") }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { Market.count }.by(1)
         end
 
         it 'returns a market' do
-          post '/graphql', params: { query: g_query(name: "Wide") }
+          post '/graphql', params: { query: g_query(name: "Wide") }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createMarket]
@@ -42,7 +42,7 @@ module Mutations
           market = create(:market)
           market2 = create(:market)
 
-          post '/graphql', params: { query: g_query(name: true) }
+          post '/graphql', params: { query: g_query(name: true) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
 
           expect(json).to have_key(:errors)

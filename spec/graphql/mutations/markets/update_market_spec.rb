@@ -7,7 +7,7 @@ module Mutations
         it 'updates a market' do
           market = create(:market)
 
-          post '/graphql', params: { query: g_query(id: market.id) }
+          post '/graphql', params: { query: g_query(id: market.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           expect(market.reload).to have_attributes(
             name: "New Name"
@@ -17,7 +17,7 @@ module Mutations
         it 'returns a market' do
           market2 = create(:market)
 
-          post '/graphql', params: { query: g_query(id: market2.id) }
+          post '/graphql', params: { query: g_query(id: market2.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateMarket]
 
@@ -46,7 +46,7 @@ module Mutations
         it 'returns with errors' do
           market3 = create(:market)
 
-          post '/graphql', params: { query: g_query(id: 'not an id') }
+          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end
