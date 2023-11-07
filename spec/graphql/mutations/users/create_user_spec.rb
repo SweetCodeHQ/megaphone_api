@@ -7,12 +7,12 @@ module Mutations
         it 'creates a user' do
 
           expect do
-            post '/graphql', params: { query: g_query(email: "me@me.com") }
+            post '/graphql', params: { query: g_query(email: "me@me.com") }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { User.count }.by(1)
         end
 
         it 'returns a user' do
-          post '/graphql', params: { query: g_query(email: "you@u.com") }
+          post '/graphql', params: { query: g_query(email: "you@u.com") }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createUser]
@@ -45,7 +45,7 @@ module Mutations
           user = create(:user)
           user2 = create(:user)
 
-          post '/graphql', params: { query: g_query(is_admin: true) }
+          post '/graphql', params: { query: g_query(is_admin: true) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
 
           expect(json).to have_key(:errors)
