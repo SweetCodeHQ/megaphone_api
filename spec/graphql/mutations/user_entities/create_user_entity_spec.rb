@@ -11,7 +11,7 @@ module Mutations
           expect do
             post '/graphql', params:
               { query: g_query(user_id: user.id, entity_id: entity.id)
-              }
+              }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { UserEntity.count }.by(1)
         end
 
@@ -19,7 +19,7 @@ module Mutations
           user   = create(:user)
           entity = create(:entity)
 
-          post '/graphql', params: { query: g_query(user_id: user.id, entity_id: entity.id) }
+          post '/graphql', params: { query: g_query(user_id: user.id, entity_id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createUserEntity]
@@ -48,7 +48,7 @@ module Mutations
           user   = create(:user)
           entity = create(:entity)
 
-          post '/graphql', params: { query: g_query(user_id: user.id, entity_id: entity.id) }
+          post '/graphql', params: { query: g_query(user_id: user.id, entity_id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
