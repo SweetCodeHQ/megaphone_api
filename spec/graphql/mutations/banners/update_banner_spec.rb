@@ -7,7 +7,7 @@ module Mutations
         it 'updates a banner' do
           banner = create(:banner)
 
-          post '/graphql', params: { query: g_query(id: banner.id) }
+          post '/graphql', params: { query: g_query(id: banner.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           expect(banner.reload).to have_attributes(
             text: "New Text"
@@ -17,7 +17,7 @@ module Mutations
         it 'returns a banner' do
           banner2 = create(:banner)
 
-          post '/graphql', params: { query: g_query(id: banner2.id) }
+          post '/graphql', params: { query: g_query(id: banner2.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateBanner]
 
@@ -46,7 +46,7 @@ module Mutations
         it 'returns with errors' do
           banner3 = create(:banner)
 
-          post '/graphql', params: { query: g_query(id: 'not an id') }
+          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end

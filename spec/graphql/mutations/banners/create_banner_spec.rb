@@ -7,12 +7,12 @@ module Mutations
         it 'creates a banner' do
 
           expect do
-            post '/graphql', params: { query: g_query(text: "Texty text", link: "widget.com", purpose: 0) }
+            post '/graphql', params: { query: g_query(text: "Texty text", link: "widget.com", purpose: 0) }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { Banner.count }.by(1)
         end
 
         it 'returns a Banner' do
-          post '/graphql', params: { query: g_query(text: "Text for a banner", link: "Wide.com", purpose: 0) }
+          post '/graphql', params: { query: g_query(text: "Text for a banner", link: "Wide.com", purpose: 0) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
 
@@ -46,7 +46,7 @@ module Mutations
       describe 'sad path' do
         it 'returns errors if text is not supplied' do
 
-          post '/graphql', params: { query: g_query(link: "A name") }
+          post '/graphql', params: { query: g_query(link: "A name") }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
 
           expect(json).to have_key(:errors)
