@@ -12,7 +12,7 @@ module Mutations
           expect do
             post '/graphql', params:
               { query: g_query(topic_id: topic.id, keyword_id: keyword.id)
-              }
+              }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { TopicKeyword.count }.by(1)
         end
 
@@ -21,7 +21,7 @@ module Mutations
           topic = create(:topic)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(topic_id: topic.id, keyword_id: keyword.id) }
+          post '/graphql', params: { query: g_query(topic_id: topic.id, keyword_id: keyword.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createTopicKeyword]
@@ -39,11 +39,11 @@ module Mutations
           expect do
             post '/graphql', params:
               { query: g_query(keyword_id: keyword.id, topic_id: topic.id)
-              }
+              }, headers: { authorization: ENV['MUTATION_KEY'] }
 
             post '/graphql', params:
               { query: g_query(keyword_id: keyword.id, topic_id: topic.id)
-              }
+              }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { TopicKeyword.count }.by(1)
         end
 
@@ -52,9 +52,9 @@ module Mutations
           topic = create(:topic)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(keyword_id: keyword.id, topic_id: topic.id) }
+          post '/graphql', params: { query: g_query(keyword_id: keyword.id, topic_id: topic.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
-          post '/graphql', params: { query: g_query(keyword_id: keyword.id, topic_id: topic.id) }
+          post '/graphql', params: { query: g_query(keyword_id: keyword.id, topic_id: topic.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createTopicKeyword]
