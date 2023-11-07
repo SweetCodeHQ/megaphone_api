@@ -11,7 +11,7 @@ module Mutations
           expect do
             post '/graphql', params:
               { query: g_query(market_id: market.id, keyword_id: keyword.id)
-              }
+              }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { MarketKeyword.count }.by(1)
         end
 
@@ -19,7 +19,7 @@ module Mutations
           market = create(:market)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(market_id: market.id, keyword_id: keyword.id) }
+          post '/graphql', params: { query: g_query(market_id: market.id, keyword_id: keyword.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createMarketKeyword]
@@ -48,7 +48,7 @@ module Mutations
           market  = create(:market)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(market_id: market.id, keyword_id: keyword.id) }
+          post '/graphql', params: { query: g_query(market_id: market.id, keyword_id: keyword.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
