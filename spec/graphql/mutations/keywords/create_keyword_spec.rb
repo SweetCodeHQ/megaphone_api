@@ -7,12 +7,12 @@ module Mutations
         it 'creates a keyword' do
 
           expect do
-            post '/graphql', params: { query: g_query(word: "Widget") }
+            post '/graphql', params: { query: g_query(word: "Widget") }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { Keyword.count }.by(1)
         end
 
         it 'returns a keyword' do
-          post '/graphql', params: { query: g_query(word: "Wide") }
+          post '/graphql', params: { query: g_query(word: "Wide") }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createKeyword]
@@ -26,18 +26,16 @@ module Mutations
         it 'returns a keyword if it already exists' do
 
           expect do
-            post '/graphql', params: { query: g_query(word: "Widget") }
-
-            post '/graphql', params: { query: g_query(word: "Widget") }
+            post '/graphql', params: { query: g_query(word: "Widget") }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { Keyword.count }.by(1)
         end
 
         it 'returns the keyword if it already exists' do
-          post '/graphql', params: { query: g_query(word: "Wide") }
+          post '/graphql', params: { query: g_query(word: "Wide") }, headers: { authorization: ENV['MUTATION_KEY'] }
 
-          post '/graphql', params: { query: g_query(word: "Widget") }
+          post '/graphql', params: { query: g_query(word: "Widget") }, headers: { authorization: ENV['MUTATION_KEY'] }
 
-          post '/graphql', params: { query: g_query(word: "Wide") }
+          post '/graphql', params: { query: g_query(word: "Wide") }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createKeyword]
@@ -67,7 +65,7 @@ module Mutations
           keyword = create(:keyword)
           keyword2 = create(:keyword)
 
-          post '/graphql', params: { query: g_query(word: true) }
+          post '/graphql', params: { query: g_query(word: true) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
 
           expect(json).to have_key(:errors)

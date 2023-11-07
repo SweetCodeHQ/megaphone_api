@@ -7,7 +7,7 @@ module Mutations
         it 'updates a keyword search_count' do
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(word: keyword.word) }
+          post '/graphql', params: { query: g_query(word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'] }
           
           expect(keyword.reload).to have_attributes(
             search_count: 2
@@ -17,7 +17,7 @@ module Mutations
         it 'returns a keyword' do
           keyword2 = create(:keyword)
 
-          post '/graphql', params: { query: g_query(word: keyword2.word) }
+          post '/graphql', params: { query: g_query(word: keyword2.word) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateKeyword]
 
@@ -45,7 +45,7 @@ module Mutations
         it 'returns with errors' do
           keyword3 = create(:keyword)
 
-          post '/graphql', params: { query: g_query(word: 'not an id') }
+          post '/graphql', params: { query: g_query(word: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end
