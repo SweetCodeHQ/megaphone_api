@@ -8,7 +8,7 @@ RSpec.describe Types::QueryType, type: :request do
     end
 
     it 'returns first page' do
-      post '/graphql', params: { query: query }
+      post '/graphql', params: { query: query }, headers: { authorization: ENV['QUERY_KEY'] }
       json = JSON.parse(response.body)
 
       page_info = json['data']['usersConnection']['pageInfo']
@@ -19,7 +19,7 @@ RSpec.describe Types::QueryType, type: :request do
     end
 
     it 'returns second page' do
-      post '/graphql', params: { query: query2 }
+      post '/graphql', params: { query: query2 }, headers: { authorization: ENV['QUERY_KEY'] }
       json = JSON.parse(response.body)
 
       page_info = json['data']['usersConnection']['pageInfo']
@@ -30,7 +30,7 @@ RSpec.describe Types::QueryType, type: :request do
     end
 
     it 'returns the third page' do
-      post '/graphql', params: { query: query3 }
+      post '/graphql', params: { query: query3 }, headers: { authorization: ENV['QUERY_KEY'] }
       json = JSON.parse(response.body)
 
       page_info = json['data']['usersConnection']['pageInfo']
@@ -41,7 +41,7 @@ RSpec.describe Types::QueryType, type: :request do
     end
 
     it 'returns the second page through backwards pagination' do
-      post '/graphql', params: { query: query4 }
+      post '/graphql', params: { query: query4 }, headers: { authorization: ENV['QUERY_KEY'] }
       json = JSON.parse(response.body)
 
       page_info = json['data']['usersConnection']['pageInfo']

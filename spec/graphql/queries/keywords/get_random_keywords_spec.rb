@@ -8,7 +8,7 @@ RSpec.describe Types::QueryType, type: :request do
     end
 
     it 'returns random keywords' do
-      post '/graphql', params: { query: query }
+      post '/graphql', params: { query: query }, headers: { authorization: ENV['QUERY_KEY'] }
       json = JSON.parse(response.body)
       keywords = json['data']['randomKeywords']
 
