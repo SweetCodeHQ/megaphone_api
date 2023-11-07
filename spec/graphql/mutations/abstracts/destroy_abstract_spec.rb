@@ -10,7 +10,7 @@ module Mutations
           abstract = create(:abstract)
 
           expect do
-            post '/graphql', params: { query: g_query(id: abstract.id) }
+            post '/graphql', params: { query: g_query(id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
           end.to change { Abstract.count }.by(-1)
         end
 
@@ -19,7 +19,7 @@ module Mutations
           topic = create(:topic, user: user)
           abstract = create(:abstract)
 
-          post '/graphql', params: { query: g_query(id: abstract.id) }
+          post '/graphql', params: { query: g_query(id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:destroyAbstract]
           expect(data).to include(
@@ -46,7 +46,7 @@ module Mutations
           topic = create(:topic, user: user)
           abstract = create(:abstract)
 
-          post '/graphql', params: { query: g_query(id: abstract.id) }
+          post '/graphql', params: { query: g_query(id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end
