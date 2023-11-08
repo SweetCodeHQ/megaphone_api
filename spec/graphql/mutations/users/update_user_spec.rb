@@ -7,7 +7,7 @@ module Mutations
         it 'updates a user' do
           user = create(:user)
 
-          post '/graphql', params: { query: g_query(id: user.id) }
+          post '/graphql', params: { query: g_query(id: user.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           expect(user.reload).to have_attributes(
             is_admin: true,
@@ -18,7 +18,7 @@ module Mutations
         it 'returns a user' do
           user2 = create(:user)
 
-          post '/graphql', params: { query: g_query(id: user2.id) }
+          post '/graphql', params: { query: g_query(id: user2.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateUser]
 
@@ -32,7 +32,7 @@ module Mutations
         it "it updates a user loginCount" do
           user = create(:user)
 
-          post '/graphql', params: { query: g_query2(id: user.id) }
+          post '/graphql', params: { query: g_query2(id: user.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           expect(user.reload).to have_attributes(
             login_count: 1
@@ -42,7 +42,7 @@ module Mutations
         it "it updates a user clickedGenerateCount" do
           user = create(:user)
 
-          post '/graphql', params: { query: g_query3(id: user.id) }
+          post '/graphql', params: { query: g_query3(id: user.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           expect(user.reload).to have_attributes(
             clicked_generate_count: 1
@@ -99,7 +99,7 @@ module Mutations
         it 'returns with errors' do
           user3 = create(:user)
 
-          post '/graphql', params: { query: g_query(id: 'not an id') }
+          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end

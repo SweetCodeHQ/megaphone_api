@@ -9,7 +9,7 @@ module Mutations
           topic = create(:topic)
           abstract = create(:abstract)
 
-          post '/graphql', params: { query: g_query(abstract_id: abstract.id) }
+          post '/graphql', params: { query: g_query(abstract_id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
 
           expect(abstract.reload).to have_attributes(
             text: "Very new text"
@@ -21,7 +21,7 @@ module Mutations
           topic = create(:topic)
           abstract = create(:abstract)
 
-          post '/graphql', params: { query: g_query(abstract_id: abstract.id) }
+          post '/graphql', params: { query: g_query(abstract_id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateAbstract]
 
@@ -49,7 +49,7 @@ module Mutations
       describe 'sad path' do
         it 'returns with errors' do
 
-          post '/graphql', params: { query: g_query(id: 'not an id') }
+          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end
