@@ -28,7 +28,7 @@ class GraphqlController < ApplicationController
   # Handle variables in form data, JSON body, or a blank value
   def check_api_key(key, query_type)
     check_format(key)
-    if request.env['HTTP_AUTHORIZATION'] == ENV['EAGLE_KEY'] 
+    if request.env['HTTP_AUTHORIZATION'] == ENV['EAGLE_KEY']
        nil
     elsif query_type == "mutation"
       key == ENV['MUTATION_KEY'] ? nil : (raise ActionController::BadRequest.new('Entry Denied'))
