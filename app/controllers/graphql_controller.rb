@@ -16,6 +16,7 @@ class GraphqlController < ApplicationController
     authorization_key = request.env['HTTP_AUTHORIZATION']
     query_type = query&.split(" ").first
     check_api_key(authorization_key, query_type)
+    puts [authorization_key, query_type]
     result = MegaphoneApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue StandardError => e
