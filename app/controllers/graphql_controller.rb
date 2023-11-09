@@ -16,7 +16,6 @@ class GraphqlController < ApplicationController
     authorization_key = request.env['HTTP_AUTHORIZATION']
     query_type = query&.split(" ").first
     check_api_key(authorization_key, query_type)
-    puts [authorization_key, query_type]
     result = MegaphoneApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue StandardError => e
@@ -32,20 +31,20 @@ class GraphqlController < ApplicationController
     if request.env['HTTP_AUTHORIZATION'] == ENV['EAGLE_KEY']
        nil
     elsif query_type == "mutation"
-      key == ENV['MUTATION_KEY'] ? nil : (raise ActionController::BadRequest.new('Entry Denied'))
+      key == ENV['MUTATION_KEY'] ? nil : (raise ActionController::BadRequest.new('Bad mutation: Entry Denied'))
     elsif query_type == "query"
-      key == ENV['QUERY_KEY'] ? nil : (raise ActionController::BadRequest.new('Entry Denied'))
+      key == ENV['QUERY_KEY'] ? nil : (raise ActionController::BadRequest.new('Bad query: Entry Denied'))
     else
-      raise ActionController::BadRequest.new('Entry Denied')
+      raise ActionController::BadRequest.new("#{key + query_type} Entry Denied")
     end
   end
 
   def check_format(key)
-    key ? key_array = key.split("_") : (raise ActionController::BadRequest.new('Entry Denied'))
+    key ? key_array = key.split("_") : (raise ActionController::BadRequest.new("#{key}Entry Denied"))
     if key_array.first == ENV['API_PREFIX'] && key_array.last == ENV['API_SUFFIX']
       return
     else
-      raise ActionController::BadRequest.new('Entry Denied')
+      raise ActionController::BadRequest.new("#{key} Entry Denied")
     end
   end
 
