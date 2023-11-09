@@ -35,16 +35,16 @@ class GraphqlController < ApplicationController
     elsif query_type == "query"
       key == ENV['QUERY_KEY'] ? nil : (raise ActionController::BadRequest.new('Bad query: Entry Denied'))
     else
-      raise ActionController::BadRequest.new("#{key + query_type} Entry Denied")
+      raise ActionController::BadRequest.new("Entry Denied")
     end
   end
 
   def check_format(key)
-    key ? key_array = key.split("_") : (raise ActionController::BadRequest.new("#{key}Entry Denied"))
+    key ? key_array = key.split("_") : (raise ActionController::BadRequest.new("Entry Denied"))
     if key_array.first == ENV['API_PREFIX'] && key_array.last == ENV['API_SUFFIX']
       return
     else
-      raise ActionController::BadRequest.new("#{key} Entry Denied")
+      raise ActionController::BadRequest.new("Entry Denied")
     end
   end
 
