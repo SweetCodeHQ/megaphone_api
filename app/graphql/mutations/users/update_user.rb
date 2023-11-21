@@ -26,6 +26,7 @@ module Mutations
           User.increment_counter(:clicked_generate_count, id)
           User.find(id).reload
         else
+          raise GraphQL::ExecutionError, "Incorrect execution." if attributes.keys.include?(:is_admin) && (User.find(context[:current_user]).is_admin && !context[:admin_request]) || (!User.find(context[:current_user]).is_admin && context[:admin_request])
           User.find(id).tap do |user|
             user.update!(attributes)
           end
