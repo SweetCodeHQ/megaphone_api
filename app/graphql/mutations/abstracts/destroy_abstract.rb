@@ -6,7 +6,13 @@ module Mutations
       type Types::AbstractType
 
       def resolve(id:)
-        Abstract.find(id).destroy
+        user_abstract = Abstract.find(@prepared_arguments[:id])
+
+        if @context[:current_user] == user_abstract.topic.user.id
+          user_abstract.destroy
+        else
+          raise GraphQL::ExecutionError, "Incorrect execution."
+        end
       end
     end
   end
