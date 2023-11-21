@@ -8,14 +8,14 @@ module Mutations
           entity = create(:entity)
 
           expect do
-            post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+            post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'] }
           end.to change { Entity.count }.by(-1)
         end
 
         it 'returns an entity' do
           entity = create(:entity)
 
-          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
 
           data = json[:data][:destroyEntity]
@@ -41,7 +41,7 @@ module Mutations
         it 'returns with errors' do
           entity = create(:entity)
 
-          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end

@@ -6,6 +6,7 @@ module Mutations
       type Types::EntityType
 
       def resolve(id:)
+        raise GraphQL::ExecutionError, "Incorrect execution." if !context[:admin_request]
         Entity.find(id).destroy
       end
     end

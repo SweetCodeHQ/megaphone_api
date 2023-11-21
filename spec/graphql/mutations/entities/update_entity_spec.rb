@@ -7,7 +7,7 @@ module Mutations
         it 'updates an entity' do
           entity = create(:entity)
 
-          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'] }
 
           expect(entity.reload).to have_attributes(
             credits: 10
@@ -16,7 +16,7 @@ module Mutations
 
         it 'returns an entity' do
           entity2 = create(:entity, request_in_progress: true)
-          post '/graphql', params: { query: g_query(id: entity2.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: entity2.id) }, headers: { authorization: ENV['EAGLE_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateEntity]
 
@@ -48,7 +48,7 @@ module Mutations
         it 'returns with errors' do
           entity3 = create(:entity)
 
-          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['EAGLE_KEY'] }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end
