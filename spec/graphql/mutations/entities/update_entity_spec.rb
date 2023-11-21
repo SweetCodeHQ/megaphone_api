@@ -6,8 +6,9 @@ module Mutations
       describe 'resolve' do
         it 'updates an entity' do
           entity = create(:entity)
+          user = create(:user, is_admin: true)
 
-          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'] }
+          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
 
           expect(entity.reload).to have_attributes(
             credits: 10
@@ -16,7 +17,9 @@ module Mutations
 
         it 'returns an entity' do
           entity2 = create(:entity, request_in_progress: true)
-          post '/graphql', params: { query: g_query(id: entity2.id) }, headers: { authorization: ENV['EAGLE_KEY'] }
+          user = create(:user, is_admin: true)
+
+          post '/graphql', params: { query: g_query(id: entity2.id) }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateEntity]
 
