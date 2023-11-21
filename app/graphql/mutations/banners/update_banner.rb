@@ -8,8 +8,12 @@ module Mutations
       type Types::BannerType
 
       def resolve(id:, **attributes)
-        Banner.find(id).tap do |banner|
-          banner.update!(attributes)
+        if context[:admin_request]
+          Banner.find(id).tap do |banner|
+            banner.update!(attributes)
+          end
+        else
+          raise GraphQL::ExecutionError, "Incorrect execution."
         end
       end
     end
