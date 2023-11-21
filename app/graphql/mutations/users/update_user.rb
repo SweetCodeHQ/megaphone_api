@@ -18,6 +18,7 @@ module Mutations
       type Types::UserType
 
       def resolve(id:, **attributes)
+         raise GraphQL::ExecutionError, "Incorrect execution." unless context[:current_user] == @prepared_arguments[:id].to_i || context[:admin_request]
         if attributes.keys.include?(:login_count)
           User.increment_counter(:login_count, id)
           User.find(id).reload
