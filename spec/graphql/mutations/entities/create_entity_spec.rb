@@ -5,14 +5,17 @@ module Mutations
     RSpec.describe CreateEntity, type: :request do
       describe '.resolve' do
         it 'creates an entity' do
+          user = create(:user, is_admin: true)
 
           expect do
-            post '/graphql', params: { query: g_query(url: "widget.com", name: "Widget") }, headers: { authorization: ENV['MUTATION_KEY'] }
+            post '/graphql', params: { query: g_query(url: "widget.com", name: "Widget") }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
           end.to change { Entity.count }.by(1)
         end
 
         it 'returns an entity' do
-          post '/graphql', params: { query: g_query(url: "wide.com", name: "Wide") }, headers: { authorization: ENV['MUTATION_KEY'] }
+           user = create(:user, is_admin: true)
+
+          post '/graphql', params: { query: g_query(url: "wide.com", name: "Wide") }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createEntity]
@@ -43,10 +46,11 @@ module Mutations
 
       describe 'sad path' do
         it 'returns errors if email is not supplied' do
+          user = create(:user, is_admin: true)
           entity = create(:entity)
           entity2 = create(:entity)
 
-          post '/graphql', params: { query: g_query(name: "A name") }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(name: "A name") }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
 
           expect(json).to have_key(:errors)

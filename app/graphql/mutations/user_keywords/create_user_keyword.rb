@@ -7,6 +7,7 @@ module Mutations
       type Types::UserKeywordType
 
       def resolve(**attributes)
+        raise GraphQL::ExecutionError, "Incorrect execution." if context[:current_user] != @prepared_arguments[:user_id].to_i
         keyword_id = Keyword.find_by(word: attributes[:word]).id
         user_id = attributes[:user_id]
         user_keyword = UserKeyword.where(user_id: user_id).where(keyword_id: keyword_id).first

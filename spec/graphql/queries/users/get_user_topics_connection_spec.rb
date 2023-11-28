@@ -6,8 +6,8 @@ RSpec.describe Types::QueryType, type: :request do
     let(:user) { create(:user) }
     let(:query_first_page) {
       <<~GQL
-        query($userId: ID!) {
-          userTopicsConnection(userId: $userId) {
+        query {
+          userTopicsConnection {
             totalCount
             pageInfo {
             endCursor
@@ -29,8 +29,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_second_page) {
       <<~GQL
-        query($userId: ID!) {
-          userTopicsConnection(userId: $userId, after: "MTA") {
+        query {
+          userTopicsConnection(after: "MTA") {
             pageInfo {
             endCursor
             startCursor
@@ -50,8 +50,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_third_page) {
       <<~GQL
-        query($userId: ID!) {
-          userTopicsConnection(userId: $userId, after: "MjA") {
+        query {
+          userTopicsConnection(after: "MjA") {
             pageInfo {
             endCursor
             startCursor
@@ -71,8 +71,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_backwards) {
       <<~GQL
-        query($userId: ID!, $before: String!, $last: Int) {
-          userTopicsConnection(userId: $userId, before: $before, last: $last) {
+        query($before: String!, $last: Int) {
+          userTopicsConnection(before: $before, last: $last) {
             pageInfo {
             endCursor
             startCursor
@@ -96,51 +96,56 @@ RSpec.describe Types::QueryType, type: :request do
     end
 
     it 'returns first page' do
-      query query_first_page, variables: {user_id: User.first.id}
+      post '/graphql', params: { query: query_first_page }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
 
-      json = gql_response.data
+      json = JSON.parse(response.body, symbolize_names: true)
+      data = json[:data][:userTopicsConnection]
 
-      expect(json['userTopicsConnection'].keys).to eq(["totalCount", "pageInfo", "edges"])
-      expect(json['userTopicsConnection']['totalCount']).to eq(30)
+      expect(data.keys).to eq([:totalCount, :pageInfo, :edges])
+      expect(data[:totalCount]).to eq(30)
 
-      page_info = json['userTopicsConnection']['pageInfo']
-      topics = json['userTopicsConnection']['edges']
+      page_info = data[:pageInfo]
+      topics = data[:edges]
 
-      expect(page_info).to eq({"endCursor"=>"MTA", "startCursor"=>"MQ", "hasPreviousPage"=>false, "hasNextPage"=>true})
+      expect(page_info).to eq({:endCursor =>"MTA", :startCursor=>"MQ", :hasPreviousPage=>false, :hasNextPage=>true})
       expect(topics.size).to eq(10)
     end
 
     it 'returns second page' do
-      query query_second_page, variables: {user_id: User.first.id}
+      post '/graphql', params: { query: query_second_page }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
 
-      json = gql_response.data
-
-      page_info = json['userTopicsConnection']['pageInfo']
-      topics = json['userTopicsConnection']['edges']
+      json = JSON.parse(response.body)
+      data = json['data']['userTopicsConnection']
+      page_info = data['pageInfo']
+      topics = data['edges']
 
       expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
       expect(topics.size).to eq(10)
     end
 
     it 'returns the third page' do
-      query query_third_page, variables: {user_id: User.first.id}
+      post '/graphql', params: { query: query_third_page }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
 
-      json = gql_response.data
+      json = JSON.parse(response.body)
+      data = json['data']['userTopicsConnection']
 
-      page_info = json['userTopicsConnection']['pageInfo']
-      topics = json['userTopicsConnection']['edges']
+      page_info = data['pageInfo']
+      topics = data['edges']
 
       expect(page_info).to eq({"endCursor"=>"MzA", "startCursor"=>"MjE", "hasPreviousPage"=>true, "hasNextPage"=>false})
       expect(topics.size).to eq(10)
     end
 
     it 'returns the second page through backwards pagination' do
-      query query_backwards, variables: {user_id: User.first.id, before: "MjE", last: 10}
+      variables = { before: "MjE", last: 10 }
 
-      json = gql_response.data
+      post '/graphql', params: { query: query_backwards, variables: variables.to_json }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
 
-      page_info = json['userTopicsConnection']['pageInfo']
-      topics = json['userTopicsConnection']['edges']
+      json = JSON.parse(response.body)
+
+      data = json['data']['userTopicsConnection']
+      page_info = data['pageInfo']
+      topics = data['edges']
 
       expect(page_info).to eq({"endCursor"=>"MjA", "startCursor"=>"MTE", "hasPreviousPage"=>true, "hasNextPage"=>true})
       expect(topics.size).to eq(10)
@@ -154,8 +159,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query1) {
       <<~GQL
-        query($userId: ID!) {
-          userTopicsConnection(userId: $userId) {
+        query {
+          userTopicsConnection {
             pageInfo {
             endCursor
             startCursor
@@ -182,11 +187,12 @@ RSpec.describe Types::QueryType, type: :request do
     end
 
     it 'returns topics in order of submitted status' do
-      query query1, variables: {user_id: User.first.id}
+      post '/graphql', params: { query: query1 }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
 
-      json = gql_response.data
+      json = JSON.parse(response.body)
+      data = json['data']['userTopicsConnection']
 
-      topics = json['userTopicsConnection']['edges']
+      topics = data['edges']
 
       expect(topics.first["node"]["submitted"]).to be(true)
     end

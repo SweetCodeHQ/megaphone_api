@@ -20,5 +20,9 @@ module Types
     def content_type
       Topic.content_types[@object.content_type]
     end
+
+    def self.authorized?(object, context)
+      super && (object.user.id == context[:current_user] || context[:admin_request])
+    end
   end
 end

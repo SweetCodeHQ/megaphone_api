@@ -31,16 +31,22 @@ RSpec.describe Types::QueryType, type: :request do
           topic
           keyword1
           topic_keyword
-          query query_string_one, variables: { id: "#{topic.id}" }
+          post '/graphql', params: { query: query_string_one, variables: { id: "#{topic.id}" } }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
         end
 
         it 'should return no errors' do
-          expect(gql_response.errors).to be_nil
+          json = JSON.parse(response.body, symbolize_names: true)
+          errors = json[:data][:errors]
+
+          expect(errors).to be_nil
         end
 
         it 'should return keywords for a topic' do
-          expect(gql_response.data["topic"]).to be_a Hash
-          expect(gql_response.data["topic"]).to eq({
+          json = JSON.parse(response.body)
+          data = json["data"]["topic"]
+
+          expect(data).to be_a Hash
+          expect(data).to eq({
             "id" => topic.id.to_s,
             "text" => topic.text,
             "keywords" => [

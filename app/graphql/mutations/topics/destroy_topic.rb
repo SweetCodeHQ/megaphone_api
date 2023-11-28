@@ -6,6 +6,7 @@ module Mutations
       type Types::TopicType
 
       def resolve(id:)
+        raise GraphQL::ExecutionError, "Incorrect execution." if context[:current_user] != Topic.find(id).user.id
         Topic.find(id).destroy
       end
     end

@@ -13,7 +13,11 @@ module Mutations
       type Types::BannerType
 
       def resolve(**attributes)
-        Banner.create!(attributes)
+        if context[:admin_request]
+          Banner.create!(attributes)
+        else 
+          raise GraphQL::ExecutionError, "Incorrect execution."
+        end
       end
     end
   end

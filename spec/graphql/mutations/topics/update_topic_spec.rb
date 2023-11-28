@@ -8,7 +8,7 @@ module Mutations
           user = create(:user)
           topic = create(:topic)
 
-          post '/graphql', params: { query: g_query(id: topic.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: topic.id) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
 
           expect(topic.reload).to have_attributes(
             text: "New Text",
@@ -20,7 +20,7 @@ module Mutations
           user = create(:user)
           topic2 = create(:topic)
 
-          post '/graphql', params: { query: g_query(id: topic2.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: topic2.id) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateTopic]
 
@@ -53,7 +53,7 @@ module Mutations
           user = create(:user)
           topic3 = create(:topic)
 
-          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end

@@ -7,6 +7,7 @@ module Mutations
       type Types::TopicType
 
       def resolve(**attributes)
+        raise GraphQL::ExecutionError, "Incorrect execution." if context[:current_user] != @prepared_arguments[:user_id].to_i
         Topic.create!(attributes)
       end
     end

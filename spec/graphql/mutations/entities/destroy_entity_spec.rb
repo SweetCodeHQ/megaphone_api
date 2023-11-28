@@ -6,16 +6,18 @@ module Mutations
       describe 'resolve' do
         it 'removes an entity' do
           entity = create(:entity)
+          user = create(:user, is_admin: true)
 
           expect do
-            post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+            post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
           end.to change { Entity.count }.by(-1)
         end
 
         it 'returns an entity' do
           entity = create(:entity)
+          user = create(:user, is_admin: true)
 
-          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
 
           data = json[:data][:destroyEntity]
@@ -40,8 +42,9 @@ module Mutations
       describe 'sad path' do
         it 'returns with errors' do
           entity = create(:entity)
+          user = create(:user, is_admin: true)
 
-          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: entity.id) }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end

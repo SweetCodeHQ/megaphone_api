@@ -9,7 +9,7 @@ module Mutations
           topic = create(:topic)
           abstract = create(:abstract)
 
-          post '/graphql', params: { query: g_query(abstract_id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(abstract_id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
 
           expect(abstract.reload).to have_attributes(
             text: "Very new text"
@@ -21,7 +21,7 @@ module Mutations
           topic = create(:topic)
           abstract = create(:abstract)
 
-          post '/graphql', params: { query: g_query(abstract_id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(abstract_id: abstract.id) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateAbstract]
 

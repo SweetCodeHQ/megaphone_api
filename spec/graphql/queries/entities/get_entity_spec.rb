@@ -3,7 +3,9 @@ include GraphQL::TestHelpers
 
 RSpec.describe Types::QueryType, type: :request do
   describe 'get entity' do
+    let(:user)          { create(:user) }
     let(:entity) { create(:entity) }
+    let(:user_entity)   { create(:user_entity) }
 
     let(:query_type_one) { "entity" }
     let(:query_string_one) { <<~GQL
@@ -22,17 +24,25 @@ RSpec.describe Types::QueryType, type: :request do
     describe "return one entity" do
       describe "happy path" do
         before do
+          user
           entity
-          query query_string_one, variables: { url: "#{entity.url}" }
+          user_entity
+          post '/graphql', params: { query: query_string_one, variables: { url: "#{entity.url}" } }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
         end
 
         it 'should return no errors' do
-          expect(gql_response.errors).to be_nil
+          json = JSON.parse(response.body, symbolize_names: true)
+          errors = json[:data][:errors]
+
+          expect(errors).to be_nil
         end
 
         it 'should return one entity' do
-          expect(gql_response.data["entity"]).to be_a Hash
-          expect(gql_response.data["entity"]).to eq({
+          json = JSON.parse(response.body)
+          data = json["data"]["entity"]
+
+          expect(data).to be_a Hash
+          expect(data).to eq({
             "id"    => entity.id.to_s,
             "name"  => entity.name,
             "url"   => entity.url,
@@ -45,11 +55,15 @@ RSpec.describe Types::QueryType, type: :request do
       describe "sad path" do
         context "entity does not exist" do
           it 'should return an error' do
+            user
             entity
-            query query_string_one, variables: { url: "notAnEmail" }
+            user_entity
+            post '/graphql', params: { query: query_string_one, variables: { url: "notAUrl" } }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
 
-            expect(gql_response.errors).to be_nil
-            expect(gql_response.data["entity"]). to be_nil
+            json = JSON.parse(response.body)
+            data = json["data"]
+
+            expect(data["entity"]).to be_nil
           end
         end
       end

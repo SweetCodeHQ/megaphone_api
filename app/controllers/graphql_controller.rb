@@ -10,11 +10,11 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: request.env['HTTP_USER'],
+      admin_request: request.env['HTTP_AUTHORIZATION'] == ENV['EAGLE_KEY'] && User.find(request.env['HTTP_USER']).is_admin
     }
-    # Also need to check for non-admin actions that the signed in user can only query its own data
     authorization_key = request.env['HTTP_AUTHORIZATION']
-    query_type = query&.split(" ").first
+    query_type = query[0]
     check_api_key(authorization_key, query_type)
     result = MegaphoneApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
@@ -30,9 +30,9 @@ class GraphqlController < ApplicationController
     check_format(key)
     if request.env['HTTP_AUTHORIZATION'] == ENV['EAGLE_KEY']
        nil
-    elsif query_type == "mutation"
+    elsif query_type == "m"
       key == ENV['MUTATION_KEY'] ? nil : (raise ActionController::BadRequest.new('Bad mutation: Entry Denied'))
-    elsif query_type == "query"
+    elsif query_type == "q"
       key == ENV['QUERY_KEY'] ? nil : (raise ActionController::BadRequest.new('Bad query: Entry Denied'))
     else
       raise ActionController::BadRequest.new("Entry Denied")

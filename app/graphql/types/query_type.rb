@@ -23,7 +23,6 @@ module Types
 
     field :user_topics_connection, Types::TopicType.connection_type, null: false do
       description 'find a users topics with pagination'
-      argument :user_id, ID, required: true
     end
 
     field :entity, Types::EntityType, null: true do
@@ -71,7 +70,13 @@ module Types
     end
 
     def entity(url:)
-      Entity.where(url: url).limit(1).first
+      ent = Entity.where(url: url).limit(1).first
+      if ent
+        raise GraphQL::ExecutionError, "Incorrect execution." unless User.find(context[:current_user]).entities.first&.id == ent.id || context[:admin_request]
+        return ent
+      else
+        return ent
+      end
     end
 
     def market(id:)
@@ -83,7 +88,10 @@ module Types
     end
 
     def topic(id:)
-      Topic.find(id)
+      topic = Topic.find(id)
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:current_user] == topic.user.id
+
+      topic
     end
 
     def random_keywords
@@ -95,24 +103,30 @@ module Types
     end
 
     def fixate_users
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request]
       User.joins(:entities).where(entities: {name: 'Fixate'})
     end
 
     def entities
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request]
       Entity.all
     end
 
 
     def entities_connection
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request]
       ::Entity.all
     end
 
     def users_connection
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request]
       ::User.all
     end
 
-    def user_topics_connection(user_id:)
-      ::Topic.where(user_id: user_id).order(submitted: :desc).order(created_at: :desc)
+    def user_topics_connection
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:current_user]
+
+      ::Topic.where(user_id: context[:current_user]).order(submitted: :desc).order(created_at: :desc)
     end
 
     def banners
@@ -120,6 +134,7 @@ module Types
     end
 
     def waitlist
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request]
       User.where(login_count: 0)
     end
   end

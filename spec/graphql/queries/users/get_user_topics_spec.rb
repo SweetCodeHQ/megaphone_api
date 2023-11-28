@@ -27,17 +27,23 @@ RSpec.describe Types::QueryType, type: :request do
         user
         topic
         topic2
-        query query_string_all, variables: { email: "#{User.last.email}" }
+        post '/graphql', params: { query: query_string_all, variables: { email: "#{User.last.email}" } }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
       end
 
       it 'should return no errors' do
-        expect(gql_response.errors).to be_nil
+        json = JSON.parse(response.body)
+        data = json['data']
+
+        expect(data['errors']).to be_nil
       end
 
       it 'should return topics for a user' do
-        expect(gql_response.data["user"]["topics"]).to be_an Array
-        expect(gql_response.data["user"]["topicCount"]).to eq(2)
-        expect(gql_response.data["user"]["topics"]).to eq([{
+        json = JSON.parse(response.body)
+        data = json['data']['user']
+
+        expect(data["topics"]).to be_an Array
+        expect(data["topicCount"]).to eq(2)
+        expect(data["topics"]).to eq([{
           "id" => topic2.id.to_s,
           "text" => topic2.text
         },

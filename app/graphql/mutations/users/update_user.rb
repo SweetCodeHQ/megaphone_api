@@ -18,6 +18,7 @@ module Mutations
       type Types::UserType
 
       def resolve(id:, **attributes)
+         raise GraphQL::ExecutionError, "Incorrect execution." unless context[:current_user] == @prepared_arguments[:id].to_i || context[:admin_request]
         if attributes.keys.include?(:login_count)
           User.increment_counter(:login_count, id)
           User.find(id).reload
@@ -25,6 +26,7 @@ module Mutations
           User.increment_counter(:clicked_generate_count, id)
           User.find(id).reload
         else
+          raise GraphQL::ExecutionError, "Incorrect execution." if attributes.keys.include?(:is_admin) && (User.find(context[:current_user]).is_admin && !context[:admin_request]) || (!User.find(context[:current_user]).is_admin && context[:admin_request])
           User.find(id).tap do |user|
             user.update!(attributes)
           end

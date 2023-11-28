@@ -4,10 +4,14 @@ module Mutations
   module Banners
     RSpec.describe Banner, type: :request do
       describe 'resolve' do
+        before do
+          create(:user, is_admin: true)
+        end
+
         it 'updates a banner' do
           banner = create(:banner)
 
-          post '/graphql', params: { query: g_query(id: banner.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: banner.id) }, headers: { authorization: ENV['EAGLE_KEY'], user: User.first.id }
 
           expect(banner.reload).to have_attributes(
             text: "New Text"
@@ -17,7 +21,7 @@ module Mutations
         it 'returns a banner' do
           banner2 = create(:banner)
 
-          post '/graphql', params: { query: g_query(id: banner2.id) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: banner2.id) }, headers: { authorization: ENV['EAGLE_KEY'], user: User.first.id }
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:updateBanner]
 
@@ -44,9 +48,10 @@ module Mutations
 
       describe 'sad path' do
         it 'returns with errors' do
+          create(:user)
           banner3 = create(:banner)
 
-          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['EAGLE_KEY'], user: User.first.id }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end

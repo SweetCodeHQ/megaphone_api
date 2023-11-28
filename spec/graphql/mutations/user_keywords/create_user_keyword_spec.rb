@@ -11,7 +11,7 @@ module Mutations
           expect do
             post '/graphql', params:
               { query: g_query(user_id: user.id, word: keyword.word)
-              }, headers: { authorization: ENV['MUTATION_KEY'] }
+              }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
           end.to change { UserKeyword.count }.by(1)
         end
 
@@ -19,7 +19,7 @@ module Mutations
           user = create(:user)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createUserKeyword]
@@ -36,11 +36,11 @@ module Mutations
           expect do
             post '/graphql', params:
               { query: g_query(user_id: user.id, word: keyword.word)
-              }, headers: { authorization: ENV['MUTATION_KEY'] }
+              }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
 
             post '/graphql', params:
               { query: g_query(user_id: user.id, word: keyword.word)
-              }, headers: { authorization: ENV['MUTATION_KEY'] }
+              }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
           end.to change { UserKeyword.count }.by(1)
         end
 
@@ -48,9 +48,9 @@ module Mutations
           user = create(:user)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
 
-          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
 
           json = JSON.parse(response.body, symbolize_names: true)
           data = json[:data][:createUserKeyword]
@@ -79,7 +79,7 @@ module Mutations
           user  = create(:user)
           keyword = create(:keyword)
 
-          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'] }
+          post '/graphql', params: { query: g_query(user_id: user.id, word: keyword.word) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
 
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)

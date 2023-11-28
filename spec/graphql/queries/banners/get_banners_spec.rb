@@ -3,6 +3,7 @@ include GraphQL::TestHelpers
 
 RSpec.describe Types::QueryType, type: :request do
   describe 'get banner' do
+    let(:user)    { create(:user) }
     let(:banner)  { create(:banner, purpose: 0) }
     let(:banner2) { create(:banner, purpose: 1) }
     let(:banner3) { create(:banner, purpose: 2) }
@@ -28,27 +29,34 @@ RSpec.describe Types::QueryType, type: :request do
           banner2
           banner3
           banner4
+
+          post '/graphql', params: { query: query_string_all }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
         end
 
         it 'should return no errors' do
-          query query_string_all
-          expect(gql_response.errors).to be_nil
+          json = JSON.parse(response.body, symbolize_names: true)
+          errors = json[:data][:errors]
+
+          expect(errors).to be_nil
         end
 
         it 'should return banners' do
-          query query_string_all
-          expect(gql_response.data["banners"]).to be_an Array
-          expect(gql_response.data["banners"].length).to be(4)
-          expect(gql_response.data["banners"].first.keys).to eq(["id", "text",
+          json = JSON.parse(response.body)
+          data = json["data"]["banners"]
+
+          expect(data).to be_an Array
+          expect(data.length).to be(4)
+          expect(data.first.keys).to eq(["id", "text",
           "link", "updatedAt"])
         end
 
         it 'orders banners by id' do
-          query query_string_all
+          json = JSON.parse(response.body)
+          data = json["data"]["banners"]
+
           banner3.update!(text: "New Text")
 
-          query query_string_all
-          ids = gql_response.data["banners"].map { |banner| banner["id"]}
+          ids = data.map { |banner| banner["id"]}
 
           expect(ids).to eq(ids.sort)
         end
