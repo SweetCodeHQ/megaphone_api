@@ -46,10 +46,11 @@ module Mutations
 
       describe 'sad path' do
         it 'returns errors if email is not supplied' do
+          user = create(:user, is_admin: true)
           entity = create(:entity)
           entity2 = create(:entity)
 
-          post '/graphql', params: { query: g_query(name: "A name") }, headers: { authorization: ENV['EAGLE_KEY'] }
+          post '/graphql', params: { query: g_query(name: "A name") }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
 
           expect(json).to have_key(:errors)

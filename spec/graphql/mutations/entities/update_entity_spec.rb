@@ -49,9 +49,10 @@ module Mutations
 
       describe 'sad path' do
         it 'returns with errors' do
+          user = create(:user)
           entity3 = create(:entity)
 
-          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['EAGLE_KEY'] }
+          post '/graphql', params: { query: g_query(id: 'not an id') }, headers: { authorization: ENV['EAGLE_KEY'], user: user.id }
           json = JSON.parse(response.body, symbolize_names: true)
           expect(json).to have_key(:errors)
         end
