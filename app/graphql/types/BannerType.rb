@@ -9,5 +9,9 @@ module Types
     def purpose
       Banner.purposes[@object.purpose]
     end
+
+    def self.authorized?(object, context)
+      super && User.find(context[:current_user])
+    end
   end
 end
