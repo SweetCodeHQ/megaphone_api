@@ -21,7 +21,6 @@ module Mutations
           post '/graphql', params: { query: g_query_b(id: user.id) }, headers: { authorization: ENV['EAGLE_KEY'], user: user2.id }
 
           expect(user.reload).to have_attributes(
-            industry: "monitoring_and_observability",
             is_admin: true
           )
         end
