@@ -66,8 +66,8 @@ RSpec.describe Types::QueryType, type: :request do
             user
             query query_string_one, variables: { email: "notAnEmail" }
 
-            expect(gql_response.errors).to be_nil
-            expect(gql_response.data["user"]). to be_nil
+            expect(gql_response.errors).not_to be_nil
+            expect(gql_response.data["user"]).to be_nil
           end
         end
       end

@@ -6,6 +6,7 @@ module Types
 
     field :user, Types::UserType, null: true do
       description 'Find user by email'
+      argument :email, String, required: false
     end
 
     field :fixate_users, [Types::UserType], null: false do
@@ -64,8 +65,14 @@ module Types
       description 'Return 4 banners'
     end
 
-    def user
-      User.where(id: context[:current_user]).limit(1).first
+    def user(email: nil)
+      if context[:current_user]
+        User.where(id: context[:current_user]).limit(1).first
+      elsif email
+        User.where(email: email).limit(1).first
+      else
+        raise GraphQL::ExecutionError, "Incorrect execution."
+      end
     end
 
     def entity(url:)
