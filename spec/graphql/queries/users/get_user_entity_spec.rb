@@ -9,8 +9,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_type_all) { "user_entities" }
     let(:query_string_all) { <<~GQL
-      query userByEmail($email: String!) {
-        user(email: $email) {
+      query User {
+        user {
           email
           entities {
             id
@@ -26,16 +26,22 @@ RSpec.describe Types::QueryType, type: :request do
         user
         entity
         user_entity
-        query query_string_all, variables: { email: "#{User.last.email}" }
+        post '/graphql', params: { query: query_string_all }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
       end
 
       it 'should return no errors' do
-        expect(gql_response.errors).to be_nil
+        json = JSON.parse(response.body)
+        data = json['data']
+
+        expect(data['errors']).to be_nil
       end
 
       it 'should return an entity' do
-        expect(gql_response.data["user"]["entities"]).to be_an Array
-        expect(gql_response.data["user"]["entities"]).to eq([{
+        json = JSON.parse(response.body)
+        data = json['data']['user']['entities']
+
+        expect(data).to be_an Array
+        expect(data).to eq([{
           "id" => entity.id.to_s,
           "url" => entity.url,
           "name" => entity.name
