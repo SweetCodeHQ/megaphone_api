@@ -64,7 +64,6 @@ module Mutations
           <<~GQL
             mutation {
               createUserKeyword( input: {
-                userId: "#{user_id}"
                 word: "#{word}"
               } ){
                 id
