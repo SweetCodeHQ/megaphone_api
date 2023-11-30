@@ -6,7 +6,6 @@ module Types
 
     field :user, Types::UserType, null: true do
       description 'Find user by email'
-      argument :email, String, required: true
     end
 
     field :fixate_users, [Types::UserType], null: false do
@@ -65,8 +64,8 @@ module Types
       description 'Return 4 banners'
     end
 
-    def user(email:)
-      User.where(email: email).limit(1).first
+    def user
+      User.where(id: context[:current_user]).limit(1).first
     end
 
     def entity(url:)

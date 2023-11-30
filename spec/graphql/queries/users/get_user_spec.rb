@@ -9,8 +9,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_type_one) { "user" }
     let(:query_string_one) { <<~GQL
-      query user($email: String!) {
-        user(email: $email) {
+      query User {
+        user {
           id
           industry
           email
@@ -30,17 +30,23 @@ RSpec.describe Types::QueryType, type: :request do
           user
           topic
           topic2
-          query query_string_one, variables: { email: "#{user.email}" }
+           post '/graphql', params: { query: query_string_one }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
         end
 
 
         it 'should return no errors' do
-          expect(gql_response.errors).to be_nil
+          json = JSON.parse(response.body)
+          data = json['data']
+
+          expect(data['errors']).to be_nil
         end
 
         it 'should return one user' do
-          expect(gql_response.data["user"]).to be_a Hash
-          expect(gql_response.data["user"]).to eq({
+          json = JSON.parse(response.body)
+          data = json['data']['user']
+
+          expect(data).to be_a Hash
+          expect(data).to eq({
             "id" => user.id.to_s,
             "industry" => 0,
             "email" => user.email,

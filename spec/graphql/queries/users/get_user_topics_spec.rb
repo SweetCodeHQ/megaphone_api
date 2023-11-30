@@ -9,8 +9,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_type_all) { "user topics" }
     let(:query_string_all) { <<~GQL
-      query userByEmail($email: String!) {
-        user(email: $email) {
+      query User {
+        user {
           id
           email
           topicCount
@@ -27,7 +27,7 @@ RSpec.describe Types::QueryType, type: :request do
         user
         topic
         topic2
-        post '/graphql', params: { query: query_string_all, variables: { email: "#{User.last.email}" } }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
+        post '/graphql', params: { query: query_string_all }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
       end
 
       it 'should return no errors' do

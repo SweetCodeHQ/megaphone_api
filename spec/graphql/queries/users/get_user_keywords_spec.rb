@@ -9,8 +9,8 @@ RSpec.describe Types::QueryType, type: :request do
 
     let(:query_type_all) { "user topics" }
     let(:query_string_all) { <<~GQL
-      query userByEmail($email: String!) {
-        user(email: $email) {
+      query User {
+        user {
           id
           email
           keywords {
@@ -27,16 +27,22 @@ RSpec.describe Types::QueryType, type: :request do
         user
         keyword
         user_keyword
-        query query_string_all, variables: { email: "#{User.last.email}" }
+        post '/graphql', params: { query: query_string_all }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
       end
 
       it 'should return no errors' do
-        expect(gql_response.errors).to be_nil
+        json = JSON.parse(response.body)
+        data = json['data']
+
+        expect(data['errors']).to be_nil
       end
 
       it 'should return keywords for a user' do
-        expect(gql_response.data["user"]["keywords"]).to be_an Array
-        expect(gql_response.data["user"]["keywords"]).to eq([{
+        json = JSON.parse(response.body)
+        data = json['data']['user']['keywords']
+
+        expect(data).to be_an Array
+        expect(data).to eq([{
           "id" => keyword.id.to_s,
           "word" => keyword.word
         }])
