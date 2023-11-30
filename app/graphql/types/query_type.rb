@@ -67,7 +67,7 @@ module Types
 
     def user(email: nil)
       if context[:current_user]
-        User.where(id: context[:current_user]).limit(1).first
+        User.find(context[:current_user])
       elsif email
         User.where(email: email).limit(1).first
       else
