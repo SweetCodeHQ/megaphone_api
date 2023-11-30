@@ -1,7 +1,7 @@
 module Mutations
   module Users
     class UpdateUser < ::Mutations::BaseMutation
-      argument :id,          ID,         required: true
+      argument :id,          ID,         required: false
       argument :email,       String,     required: false
       argument :is_admin,    Boolean,    required: false
       argument :is_blocked,   Boolean,    required: false
@@ -22,16 +22,15 @@ module Mutations
           User.increment_counter(:login_count, id)
           User.find(id).reload
         elsif attributes.keys == [:clicked_generate_count]
-          User.increment_counter(:clicked_generate_count, id)
-          User.find(id).reload
-        elsif attributes.keys.include?(:is_admin)
+          User.increment_counter(:clicked_generate_count, context[:current_user])
+          User.find(context[:current_user]).reload
+        elsif attributes.keys.include?(:is_admin) || attributes.keys.include?(:is_blocked)
           raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request]
           user = User.find(id)
-          user.update!(is_admin: true)
+          user.update!(attributes)
           user.reload
         else
-          raise GraphQL::ExecutionError, "Incorrect execution." unless context[:current_user] == id.to_i
-          User.find(id).tap do |user|
+          User.find(context[:current_user]).tap do |user|
             user.update!(attributes)
           end
         end
