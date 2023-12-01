@@ -10,9 +10,10 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      current_user: request.env['HTTP_USER'],
+      current_user: normalizedUser,
       admin_request: request.env['HTTP_AUTHORIZATION'] == ENV['EAGLE_KEY'] && User.find(request.env['HTTP_USER']).is_admin
     }
+
     authorization_key = request.env['HTTP_AUTHORIZATION']
     query_type = query[0]
     check_api_key(authorization_key, query_type)
@@ -46,6 +47,9 @@ class GraphqlController < ApplicationController
     else
       raise ActionController::BadRequest.new("Entry Denied")
     end
+  end
+  def normalizedUser
+    request.env['HTTP_USER'] ? request.env['HTTP_USER'].to_i : nil
   end
 
   def prepare_variables(variables_param)

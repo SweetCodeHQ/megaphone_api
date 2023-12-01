@@ -29,7 +29,7 @@ RSpec.describe Types::QueryType, type: :request do
           topic
           abstract
 
-          post '/graphql', params: { query: query_string_one, variables: { id: "#{topic.id}" } }, headers: { authorization: ENV['QUERY_KEY'], user: user.id }
+          post '/graphql', params: { query: query_string_one, variables: { id: "#{topic.id}" } }, headers: { authorization: ENV['QUERY_KEY'], user: "#{user.id}" }
         end
 
         it 'should return no errors' do
