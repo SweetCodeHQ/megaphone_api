@@ -95,7 +95,7 @@ module Types
 
     def topic(id:)
       topic = Topic.find(id)
-      raise GraphQL::ExecutionError, "Incorrect execution: #{context[:current_user]} != #{topic.user_id}" unless context[:current_user] == topic.user_id
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:current_user] == topic.user_id
 
       topic
     end
