@@ -17,7 +17,8 @@ module Mutations
 
       type Types::UserType
 
-      def resolve(id:, **attributes)
+      def resolve(**attributes)
+        id = attributes[:id]
         if attributes.keys == [:login_count]
           User.increment_counter(:login_count, id)
           User.find(id).reload
