@@ -31,7 +31,6 @@ module Mutations
             mutation createTopic {
               createTopic( input: {
                 text: "#{text}"
-                userId: "#{user_id}"
               } ){
                 id
                 text
