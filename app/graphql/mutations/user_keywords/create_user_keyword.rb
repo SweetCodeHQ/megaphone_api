@@ -6,7 +6,7 @@ module Mutations
       type Types::UserKeywordType
 
       def resolve(**attributes)
-        keyword_id = Keyword.find_by(word: attributes[:word]).id
+        keyword_id = Keyword.find_by(word: attributes[:word])&.id
         user_id = context[:current_user]
         user_keyword = UserKeyword.where(user_id: user_id).where(keyword_id: keyword_id).first
 
