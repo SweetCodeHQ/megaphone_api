@@ -10,8 +10,8 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      current_user: normalized_user,
-      admin_request: request.env['HTTP_AUTHORIZATION'] == ENV['EAGLE_KEY'] && User.find(normalized_user).is_admin
+      current_user: normalized_user_id,
+      admin_request: normalized_admin_request 
     }
 
     authorization_key = request.env['HTTP_AUTHORIZATION']
@@ -49,8 +49,14 @@ class GraphqlController < ApplicationController
     end
   end
 
-  def normalized_user
+  def normalized_user_id
     request.env['HTTP_USER'] ? request.env['HTTP_USER'].to_i : nil
+  end
+
+  def normalized_admin_request
+    request.env['HTTP_USER'] ? 
+      request.env['HTTP_AUTHORIZATION'] == ENV['EAGLE_KEY'] && User.find(normalized_user_id).is_admin
+      : false
   end
 
   def prepare_variables(variables_param)
