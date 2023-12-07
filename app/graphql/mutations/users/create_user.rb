@@ -6,7 +6,13 @@ module Mutations
       type Types::UserType
 
       def resolve(**attributes)
-        User.create!(attributes)
+        user = User.find_by(email: attributes[:email])
+        if context[:current_user] 
+          raise GraphQL::ExecutionError, "Incorrect execution." unless context[:current_user] == user.id
+          user
+        else
+          User.create!(attributes)
+        end
       end
     end
   end
