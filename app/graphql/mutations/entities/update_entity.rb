@@ -10,7 +10,7 @@ module Mutations
       type Types::EntityType
 
       def resolve(id:, **attributes)
-        raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request] || User.find(context[:current_user]).entities[0].id == id.to_i
+        raise GraphQL::ExecutionError, "Incorrect execution.:#{context[:admin_request]} top of resolve" unless context[:admin_request] || User.find(context[:current_user]).entities[0].id == id.to_i
         if attributes.keys.include?(:credits)
           raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request]
           attributes[:request_in_progress] = false
