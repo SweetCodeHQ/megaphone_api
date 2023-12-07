@@ -13,7 +13,7 @@ class GraphqlController < ApplicationController
       current_user: normalized_user_id,
       admin_request: normalized_admin_request 
     }
-
+    
     authorization_key = request.env['HTTP_AUTHORIZATION']
     query_type = query[0]
     check_api_key(authorization_key, query_type)
