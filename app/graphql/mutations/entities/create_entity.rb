@@ -7,7 +7,7 @@ module Mutations
       type Types::EntityType
 
       def resolve(**attributes)
-        raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request] && User.find(context[:current_user]).is_admin
+        raise GraphQL::ExecutionError, "Incorrect execution." unless context[:current_user]
         Entity.create!(attributes)
       end
     end
