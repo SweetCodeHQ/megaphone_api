@@ -4,7 +4,7 @@ module Mutations
   module Entities
     RSpec.describe Entity, type: :request do
       describe 'resolve' do
-        it 'updates an entity' do
+        it 'updates an entity when user is an admin' do
           entity = create(:entity)
           user = create(:user, is_admin: true)
 
@@ -12,6 +12,18 @@ module Mutations
 
           expect(entity.reload).to have_attributes(
             credits: 10
+          )
+        end
+
+        it 'updates an entity when user is not an admin but belongs to the entity' do
+          entity = create(:entity)
+          user = create(:user)
+          create(:user_entity)
+          
+          post '/graphql', params: { query: g_query2(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
+          
+          expect(entity.reload).to have_attributes(
+            request_in_progress: true
           )
         end
 
@@ -36,6 +48,22 @@ module Mutations
               updateEntity(input: {
                 id: #{id}
                 credits: 10
+              }){
+                id
+                credits
+                url
+                requestInProgress
+              }
+            }
+          GQL
+        end
+
+        def g_query2(id:)
+          <<~GQL
+            mutation {
+              updateEntity(input: {
+                id: #{id}
+                requestInProgress: true
               }){
                 id
                 credits
