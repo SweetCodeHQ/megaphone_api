@@ -23,7 +23,7 @@ module Mutations
           post '/graphql', params: { query: g_query2(id: entity.id) }, headers: { authorization: ENV['MUTATION_KEY'], user: user.id }
           
           expect(entity.reload).to have_attributes(
-            credits: 10
+            request_in_progress: true
           )
         end
 
