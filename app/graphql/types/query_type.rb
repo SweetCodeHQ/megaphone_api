@@ -120,7 +120,7 @@ module Types
 
 
     def entities_connection
-      raise GraphQL::ExecutionError, "Incorrect execution.: #{context[:current_user]}. Admin request: #{context[:admin_request]}" unless context[:admin_request]
+      raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request]
       ::Entity.all
     end
 
