@@ -19,7 +19,7 @@ module Mutations
 
       def resolve(**attributes)
         id = attributes[:id].to_i
-        if attributes.keys.include?([:login_count])
+        if attributes.keys.include?(:login_count)
           User.increment_counter(:login_count, id)
           User.find(id).reload
         elsif attributes.keys == [:clicked_generate_count]
