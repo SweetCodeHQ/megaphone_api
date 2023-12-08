@@ -38,6 +38,23 @@ module Mutations
             }
           GQL
         end
+
+        it "creates an entity and a user entity if they don't exist" do
+          expect(User.all.size).to eq(0)
+          expect(Entity.all.size).to eq(0)
+          expect(UserEntity.all.size).to eq(0)
+
+          post '/graphql', params: { query: g_query(email: "robert@robertinconcert.com") }, headers: { authorization: ENV['MUTATION_KEY'] }
+
+          expect(User.all.size).to eq(1)
+
+          expect(Entity.all.size).to eq(1)
+          expect(Entity.last.url).to eq("robertinconcert.com")
+
+          expect(UserEntity.all.size).to eq(1)
+          expect(UserEntity.last.user_id).to eq(User.last.id)
+          expect(UserEntity.last.entity_id).to eq(Entity.last.id)
+        end
       end
 
       describe 'sad path' do
