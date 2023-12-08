@@ -19,6 +19,7 @@ module Mutations
 
       def resolve(**attributes)
         id = attributes[:id].to_i
+        binding.pry
         if attributes.keys.include?([:login_count])
           User.increment_counter(:login_count, id)
           User.find(id).reload
