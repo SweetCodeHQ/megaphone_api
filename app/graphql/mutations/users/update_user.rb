@@ -21,6 +21,7 @@ module Mutations
         id = attributes[:id]
         if attributes.keys == [:login_count]
           User.increment_counter(:login_count, context[:current_user])
+          raise GraphQL::ExecutionError, "Incorrect execution. #{context[:current_user]}" 
           User.find(context[:current_user]).reload
         elsif attributes.keys == [:clicked_generate_count]
           User.increment_counter(:clicked_generate_count, context[:current_user])
