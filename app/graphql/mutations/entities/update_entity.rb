@@ -13,8 +13,8 @@ module Mutations
         entity = Entity.find(id)
         raise GraphQL::ExecutionError, "Incorrect execution." unless context[:admin_request] || User.find(context[:current_user]).entities[0].id == id.to_i
         if attributes.keys.include?(:credits)
-          credits = entity.credits || 0
-          raise GraphQL::ExecutionError, "Incorrect execution." if credits < attributes[:credits] && !context[:admin_request]
+          current_credits = entity.credits || 0
+          raise GraphQL::ExecutionError, "Incorrect execution." unless current_credits > attributes[:credits] || context[:admin_request] 
           attributes[:request_in_progress] = false if context[:admin_request]
           entity.tap do |entity|
             entity.update!(attributes)
